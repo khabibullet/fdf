@@ -6,7 +6,7 @@
 /*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 21:08:20 by anemesis          #+#    #+#             */
-/*   Updated: 2022/01/19 15:45:40 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/01/22 22:34:17 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 # include <fcntl.h>
 # include <stddef.h>
 # include <stdio.h>
-#include <errno.h>
+# include <errno.h>
+# include <math.h>
 
 typedef struct t_var
 {
@@ -38,27 +39,56 @@ typedef struct t_img
 	char	*addr;
 }	t_img;
 
+typedef struct t_line
+{
+	float	x0;
+	float	y0;
+	float	x1;
+	float	y1;
+	float	buf;
+	int		flag;
+	int		sgn;
+	float	x;
+	float	y;
+	float	dx;
+	float	dy;
+	float	err;
+	float	ycur;
+}	t_line;
+
+typedef struct t_flat
+{
+	float	**x;
+	float	**y;
+	float	fi;
+	float	teta;
+	float	xmax;
+	float	xmin;
+	float	ymax;
+	float	ymin;
+}	t_flat;
+
 typedef struct t_mlx
 {
 	void			*mlx;
 	void			*win;
 	int				map_h;
 	int				map_w;
+	int				frame;
+	int				map_min;
+	int				map_max;
+	int				shape;
+	float			zoom;
 	int				win_h;
 	int				win_w;
-	int				x_pix;
-	int				y_pix;
-	int				**map;
+	int				x;
+	int				y;
+	float			**map;
 	char			*map_name;
 	int				map_fd;
 	struct t_img	pic;
-
-	int				x0;
-	int				y0;
-	int				x1;
-	int				y1;
-	int				x;
-	int				y;
+	struct t_line	ln;
+	struct t_flat	fl;
 }	t_mlx;
 
 // get_next_line functions

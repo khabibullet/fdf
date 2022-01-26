@@ -1,5 +1,6 @@
 #include <mlx.h>
 #include <math.h>
+#include "fdf_lib.h"
 
 typedef struct	s_data
 {
@@ -116,34 +117,9 @@ void put_esagon(int dim, int color, t_data	img)
 
 int main()
 {
-	void	*mlx;
-	void    *mlx_win;
-	t_data	img;
-	int		color = 0x00FFFFFF;
+	float a;
 
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 800, 200, "Hello world!");
-	img.img = mlx_new_image(mlx, 800, 200);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
-								 &img.endian);
-
-	int i = 0;
-	int j = 0;
-	while (j < 800)
-	{
-		while (i < 200)
-		{
-			my_mlx_pixel_put(&img, i, j, color);
-			i++;
-		}
-		i = 0;
-		j++;
-	}
-	put_square(100, color, img);
-	put_triangle(100, color, img);
-	put_octagon(40, color, img);
-	put_esagon(50, color, img);
-
-	mlx_put_image_to_window(mlx, mlx_win, img.img, 20, 20);
-	mlx_loop(mlx);
+	a = 10.2;
+	a++;
+	printf("%f\n", a);
 }
