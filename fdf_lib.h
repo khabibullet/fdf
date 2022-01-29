@@ -6,7 +6,7 @@
 /*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 21:08:20 by anemesis          #+#    #+#             */
-/*   Updated: 2022/01/22 22:34:17 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/01/29 17:28:55 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,12 @@ typedef struct t_flat
 typedef struct t_mlx
 {
 	void			*mlx;
+	void			*mlx_buf;
 	void			*win;
 	int				map_h;
 	int				map_w;
+	float			xoffs;
+	float			yoffs;
 	int				frame;
 	int				map_min;
 	int				map_max;

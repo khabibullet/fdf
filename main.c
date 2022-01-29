@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anemesis <anemesis@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:02:00 by anemesis          #+#    #+#             */
-/*   Updated: 2022/01/28 10:27:38 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/01/29 22:24:40 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,18 @@
 #include "src/get_next_line_utils.c"
 #include "src/ft_atoi.c"
 #include "src/ft_isdigit.c"
+
+void	def_vars(t_mlx	*gen)
+{
+	gen->map_name = "maps/42.fdf";
+	gen->win_h = 800;
+	gen->win_w = 700;
+	gen->frame = 50;
+	gen->fl.fi = -40;
+	gen->fl.teta = -45;
+	gen->shape = 1;
+	gen->zoom = 30;
+}
 
 // void	find_min_max(t_mlx	*gen)
 // {
@@ -46,18 +58,6 @@
 // 	}
 // }
 
-void	def_vars(t_mlx	*gen)
-{
-	gen->map_name = "maps/pyra.fdf";
-	gen->win_h = 500;
-	gen->win_w = 400;
-	gen->frame = 50;
-	gen->fl.fi = 40;
-	gen->fl.teta = 45;
-	gen->shape = 1;
-	gen->zoom = 13;
-}
-
 void	my_mlx_pixel_put(t_img *gen, int x, int y, unsigned int color)
 {
 	char	*dst;
@@ -72,16 +72,16 @@ void	init_white_back(t_mlx	*gen)
 			+ 2 * gen->frame, gen->win_h + 2 * gen->frame);
 	gen->pic.addr = mlx_get_data_addr(gen->pic.img,
 			&gen->pic.bits_per_pix, &gen->pic.line_len, &gen->pic.end);
-	gen->y = 0;
-	while (gen->y < gen->win_h + 2 * gen->frame)
+	gen->x = 0;
+	while (gen->x < gen->win_h + 2 * gen->frame)
 	{
-		gen->x = 0;
-		while (gen->x < gen->win_w + 2 * gen->frame)
+		gen->y = 0;
+		while (gen->y < gen->win_w + 2 * gen->frame)
 		{
-			my_mlx_pixel_put(&gen->pic, gen->x, gen->y, 0x00FFFFFF);
-			gen->x++;
+			my_mlx_pixel_put(&gen->pic, gen->y, gen->x, 0x00FFFFFF);
+			gen->y++;
 		}
-		gen->y++;
+		gen->x++;
 	}
 }
 
@@ -308,47 +308,37 @@ int	parse_map(t_mlx *gen)
 	if (!gen->map)
 		return (1);
 	str = get_next_line(gen->map_fd);
-	gen->y = 0;
+	gen->x = 0;
 	while (str)
 	{
 		spl = ft_split(str, ' ');
 		free(str);
-		gen->map[gen->y] = malloc(sizeof(**gen->map) * gen->map_w);
-		if (!gen->map[gen->y])
+		gen->map[gen->x] = malloc(sizeof(**gen->map) * gen->map_w);
+		if (!gen->map[gen->x])
 			return (1);
-		gen->x = 0;
-		while (spl[gen->x])
+		gen->y = 0;
+		while (spl[gen->y])
 		{
-			gen->map[gen->y][gen->x] = ft_atoi(spl[gen->x]);
-			if (gen->y == 0 && gen->y == 0)
+			gen->map[gen->x][gen->y] = ft_atoi(spl[gen->y]);
+			if (gen->x == 0 && gen->y == 0)
 			{
-				gen->map_min = gen->map[gen->y][gen->x];
-				gen->map_max = gen->map[gen->y][gen->x];
+				gen->map_min = gen->map[gen->x][gen->y];
+				gen->map_max = gen->map[gen->x][gen->y];
 			}
-			else if (gen->map[gen->y][gen->x] < gen->map_min)
-				gen->map_min = gen->map[gen->y][gen->x];
-			else if (gen->map[gen->y][gen->x] > gen->map_max)
-				gen->map_max = gen->map[gen->y][gen->x];
-			free(spl[gen->x]);
-			gen->x++;
+			else if (gen->map[gen->x][gen->y] < gen->map_min)
+				gen->map_min = gen->map[gen->x][gen->y];
+			else if (gen->map[gen->x][gen->y] > gen->map_max)
+				gen->map_max = gen->map[gen->x][gen->y];
+			free(spl[gen->y]);
+			gen->y++;
 		}
 		free(spl);
-		gen->y++;
+		gen->x++;
 		str = get_next_line(gen->map_fd);
 	}
 	close(gen->map_fd);
-	gen->y = 0;
-	while (gen->y < gen->map_h)
-	{
-		gen->x = 0;
-		while (gen->x < gen->map_w)
-		{
-			gen->map[gen->y][gen->x] = gen->map[gen->y][gen->x]
-				- (float)(gen->map_max + gen->map_min) / 2;
-			gen->x++;
-		}
-		gen->y++;
-	}
+	gen->xoffs = (float)(gen->map_h - 1) / 2;
+	gen->yoffs = (float)(gen->map_w - 1) / 2;
 	return (0);
 }
 
@@ -372,50 +362,32 @@ void	flatten(t_mlx	*gen)
 	float	cteta;
 	float	steta;
 
-	cfi = cos(M_PI / 180 * gen->fl.fi * (-1));
-	sfi = sin(M_PI / 180 * gen->fl.fi * (-1));
+	cfi = cos(M_PI / 180 * gen->fl.fi);
+	sfi = sin(M_PI / 180 * gen->fl.fi);
 	cteta = cos(M_PI / 180 * gen->fl.teta);
 	steta = sin(M_PI / 180 * gen->fl.teta);
-	gen->y = 0;
-	while (gen->y < gen->map_h)
+	gen->x = 0;
+	while (gen->x < gen->map_h)
 	{
-		gen->x = 0;
-		while (gen->x < gen->map_w)
+		gen->y = 0;
+		while (gen->y < gen->map_w)
 		{
-			gen->fl.x[gen->y][gen->x]
-				= cfi * (gen->x - (float)gen->map_w / 2)
-				- sfi * (gen->y - (float)gen->map_h / 2);
-			gen->fl.y[gen->y][gen->x]
-				= -cfi * cteta * (gen->x - (float)gen->map_w / 2)
-				- sfi * cteta * (gen->y - (float)gen->map_h / 2)
-				- steta * gen->shape * gen->map[gen->y][gen->x];
-			gen->x++;
-		}
-		gen->y++;
-	}
-}
-
-void	zoom_and_shift(t_mlx	*gen)
-{
-	gen->y = 0;
-	while (gen->y < gen->map_h)
-	{
-		gen->x = 0;
-		while (gen->x < gen->map_w)
-		{
-			gen->fl.x[gen->y][gen->x]
-				= gen->fl.x[gen->y][gen->x] * gen->zoom
-				+ (float)(gen->win_w + 2 * gen->frame) / 2;
-			gen->fl.y[gen->y][gen->x]
-				= gen->fl.y[gen->y][gen->x] * gen->zoom
+			gen->fl.x[gen->x][gen->y]
+				= (cfi * ((float)gen->x - gen->xoffs)
+				+ sfi * ((float)gen->y - gen->yoffs)) * gen->zoom
 				+ (float)(gen->win_h + 2 * gen->frame) / 2;
-			gen->x++;
+			gen->fl.y[gen->x][gen->y]
+				= (-sfi * cteta * ((float)gen->x - gen->xoffs)
+				+ cfi * cteta * ((float)gen->y - gen->yoffs)
+				+ steta * gen->shape * gen->map[gen->x][gen->y]) * gen->zoom
+				+ (float)(gen->win_w + 2 * gen->frame) / 2;
+			gen->y++;
 		}
-		gen->y++;
+		gen->x++;
 	}
 }
 
-void	free_arrays(t_mlx	*gen)
+void	free_data(t_mlx	*gen)
 {
 	int	h;
 
@@ -432,33 +404,39 @@ void	free_arrays(t_mlx	*gen)
 	free(gen->fl.y);
 }
 
+int	rotate(t_mlx *gen)
+{
+	flatten(gen);
+	put_pic(gen);
+	gen->fl.fi = gen->fl.fi - 0.3;
+	if (gen->fl.fi < -360)
+		gen->fl.fi = gen->fl.fi + 360;
+	usleep(16666);
+	return (0);
+}
+
+int	close_win(int keycode, t_mlx	*gen)
+{
+	if (keycode == 0)
+		mlx_destroy_window(gen->mlx, gen->win);
+	return (0);
+}
+
 int	main(void)
 {
 	t_mlx	gen;
-	int h;
 
-	h = 0;
-	// def_vars(&gen);
-	// if (parse_map(&gen))
-	// 	return (1);
+	def_vars(&gen);
+	if (parse_map(&gen))
+		return (1);
 	gen.mlx = mlx_init();
-	// gen.win = mlx_new_window(gen.mlx, gen.win_w + 2 * gen.frame,
-	// 		gen.win_h + 2 * gen.frame, "Fdf");
-	gen.win = mlx_new_window(gen.mlx, 10, 10, "Fdf");
-	// malloc_xy(&gen);
-	// while (1)
-	// {
-		// gen.fl.fi++;
-		// if (gen.fl.fi > 360)
-		// 	gen.fl.fi = gen.fl.fi - 360;
-		// flatten(&gen);
-		// zoom_and_shift(&gen);
-		// put_pic(&gen);
-		// usleep(1000000);
-	// }
-	// mlx_loop(gen.mlx);
-	// free_arrays(&gen);
-	// mlx_clear_window(gen.mlx, gen.win);
-	mlx_destroy_window(gen.mlx, gen.win);
+	gen.win = mlx_new_window(gen.mlx, gen.win_w + 2 * gen.frame,
+			gen.win_h + 2 * gen.frame, "Fdf");
+	malloc_xy(&gen);
+	mlx_loop_hook(gen.mlx, rotate, &gen);
+	// rotate(&gen);
+	// mlx_key_hook(gen.mlx, close_win, &gen);
+	mlx_loop(gen.mlx);
+	free_data(&gen);
 	return (0);
 }

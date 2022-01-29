@@ -121,5 +121,5 @@ int main()
 
 	a = 10.2;
 	a++;
-	printf("%f\n", a);
+	printf("%lu\n", sizeof(a));
 }
