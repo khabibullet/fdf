@@ -6,7 +6,7 @@
 /*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 21:08:20 by anemesis          #+#    #+#             */
-/*   Updated: 2022/01/29 17:28:55 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/02/03 17:39:03 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,17 @@ typedef struct t_flat
 	float	ymin;
 }	t_flat;
 
+typedef struct t_angles
+{
+	float	cfi;
+	float	sfi;
+	float	cteta;
+	float	steta;
+}	t_angles;
+
 typedef struct t_mlx
 {
 	void			*mlx;
-	void			*mlx_buf;
 	void			*win;
 	int				map_h;
 	int				map_w;
@@ -89,6 +96,9 @@ typedef struct t_mlx
 	float			**map;
 	char			*map_name;
 	int				map_fd;
+	char			*ptr;
+	char			*buf;
+	int				keycode;
 	struct t_img	pic;
 	struct t_line	ln;
 	struct t_flat	fl;

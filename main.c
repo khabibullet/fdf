@@ -6,7 +6,7 @@
 /*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:02:00 by anemesis          #+#    #+#             */
-/*   Updated: 2022/01/29 22:24:40 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/02/03 22:24:15 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,41 +22,41 @@
 
 void	def_vars(t_mlx	*gen)
 {
-	gen->map_name = "maps/42.fdf";
-	gen->win_h = 800;
-	gen->win_w = 700;
+	gen->map_name = "maps/pyramide.fdf";
+	gen->win_h = 500;
+	gen->win_w = 500;
 	gen->frame = 50;
-	gen->fl.fi = -40;
-	gen->fl.teta = -45;
+	gen->fl.fi = 2;
+	gen->fl.teta = 60;
 	gen->shape = 1;
-	gen->zoom = 30;
+	gen->zoom = 15;
 }
 
-// void	find_min_max(t_mlx	*gen)
-// {
-// 	gen->fl.xmax = gen->fl.x[0][0];
-// 	gen->fl.xmin = gen->fl.x[0][0];
-// 	gen->fl.ymax = gen->fl.y[0][0];
-// 	gen->fl.ymin = gen->fl.y[0][0];
-// 	gen->y = 0;
-// 	while (gen->y < gen->map_h)
-// 	{
-// 		gen->x = 0;
-// 		while (gen->x < gen->map_w)
-// 		{
-// 			if (gen->fl.x[gen->y][gen->x] > gen->fl.xmax)
-// 				gen->fl.xmax = gen->fl.x[gen->y][gen->x];
-// 			if (gen->fl.x[gen->y][gen->x] < gen->fl.xmin)
-// 				gen->fl.xmin = gen->fl.x[gen->y][gen->x];
-// 			if (gen->fl.y[gen->y][gen->x] > gen->fl.ymax)
-// 				gen->fl.ymax = gen->fl.y[gen->y][gen->x];
-// 			if (gen->fl.y[gen->y][gen->x] < gen->fl.ymin)
-// 				gen->fl.ymin = gen->fl.y[gen->y][gen->x];
-// 			gen->x++;
-// 		}
-// 		gen->y++;
-// 	}
-// }
+void	find_min_max(t_mlx	*gen)
+{
+	gen->fl.xmax = gen->fl.x[0][0];
+	gen->fl.xmin = gen->fl.x[0][0];
+	gen->fl.ymax = gen->fl.y[0][0];
+	gen->fl.ymin = gen->fl.y[0][0];
+	gen->y = 0;
+	while (gen->y < gen->map_h)
+	{
+		gen->x = 0;
+		while (gen->x < gen->map_w)
+		{
+			if (gen->fl.x[gen->y][gen->x] > gen->fl.xmax)
+				gen->fl.xmax = gen->fl.x[gen->y][gen->x];
+			if (gen->fl.x[gen->y][gen->x] < gen->fl.xmin)
+				gen->fl.xmin = gen->fl.x[gen->y][gen->x];
+			if (gen->fl.y[gen->y][gen->x] > gen->fl.ymax)
+				gen->fl.ymax = gen->fl.y[gen->y][gen->x];
+			if (gen->fl.y[gen->y][gen->x] < gen->fl.ymin)
+				gen->fl.ymin = gen->fl.y[gen->y][gen->x];
+			gen->x++;
+		}
+		gen->y++;
+	}
+}
 
 void	my_mlx_pixel_put(t_img *gen, int x, int y, unsigned int color)
 {
@@ -66,7 +66,7 @@ void	my_mlx_pixel_put(t_img *gen, int x, int y, unsigned int color)
 	*(unsigned int *)dst = color;
 }
 
-void	init_white_back(t_mlx	*gen)
+void	put_white_back(t_mlx	*gen)
 {
 	gen->pic.img = mlx_new_image(gen->mlx, gen->win_w
 			+ 2 * gen->frame, gen->win_h + 2 * gen->frame);
@@ -117,17 +117,6 @@ int	put_pixels_wu(t_mlx	*gen)
 {
 	if (!gen->ln.flag)
 	{
-		if (gen->ln.x < gen->frame || gen->ln.x > gen->frame + gen->win_w
-			|| gen->ln.ycur < gen->frame
-			|| gen->ln.ycur > gen->frame + gen->win_h)
-			return (1);
-		my_mlx_pixel_put(&gen->pic, gen->ln.x, gen->ln.ycur,
-			0x00010101 * (int)(255 * gen->ln.err / gen->ln.dx));
-		my_mlx_pixel_put(&gen->pic, gen->ln.x, gen->ln.ycur + gen->ln.sgn,
-			0x00010101 * (int)(255 * (gen->ln.dx - gen->ln.err) / gen->ln.dx));
-	}
-	else
-	{
 		if (gen->ln.x < gen->frame || gen->ln.x > gen->frame + gen->win_h
 			|| gen->ln.ycur < gen->frame
 			|| gen->ln.ycur > gen->frame + gen->win_w)
@@ -137,6 +126,17 @@ int	put_pixels_wu(t_mlx	*gen)
 		my_mlx_pixel_put(&gen->pic, gen->ln.ycur + gen->ln.sgn, gen->ln.x,
 			0x00010101 * (int)(255 * (gen->ln.dx - gen->ln.err) / gen->ln.dx));
 	}
+	else
+	{
+		if (gen->ln.x < gen->frame || gen->ln.x > gen->frame + gen->win_w
+			|| gen->ln.ycur < gen->frame
+			|| gen->ln.ycur > gen->frame + gen->win_h)
+			return (1);
+		my_mlx_pixel_put(&gen->pic, gen->ln.x, gen->ln.ycur,
+			0x00010101 * (int)(255 * gen->ln.err / gen->ln.dx));
+		my_mlx_pixel_put(&gen->pic, gen->ln.x, gen->ln.ycur + gen->ln.sgn,
+			0x00010101 * (int)(255 * (gen->ln.dx - gen->ln.err) / gen->ln.dx));
+	}
 	return (0);
 }
 
@@ -144,19 +144,19 @@ int	put_pixels_bres(t_mlx	*gen)
 {
 	if (!gen->ln.flag)
 	{
-		if (gen->ln.x < gen->frame || gen->ln.x > gen->frame + gen->win_w
-			|| gen->ln.ycur < gen->frame
-			|| gen->ln.ycur > gen->frame + gen->win_h)
+		if (gen->ln.x <= gen->frame || gen->ln.x >= gen->frame + gen->win_h
+			|| gen->ln.ycur <= gen->frame
+			|| gen->ln.ycur >= gen->frame + gen->win_w)
 			return (1);
-		my_mlx_pixel_put(&gen->pic, gen->ln.x, gen->ln.ycur, 0x00000000);
+		my_mlx_pixel_put(&gen->pic, gen->ln.ycur, gen->ln.x, 0x00000000);
 	}
 	else
 	{
-		if (gen->ln.x < gen->frame || gen->ln.x > gen->frame + gen->win_h
-			|| gen->ln.ycur < gen->frame
-			|| gen->ln.ycur > gen->frame + gen->win_w)
+		if (gen->ln.x <= gen->frame || gen->ln.x >= gen->frame + gen->win_w
+			|| gen->ln.ycur <= gen->frame
+			|| gen->ln.ycur >= gen->frame + gen->win_h)
 			return (1);
-		my_mlx_pixel_put(&gen->pic, gen->ln.ycur, gen->ln.x, 0x00000000);
+		my_mlx_pixel_put(&gen->pic, gen->ln.x, gen->ln.ycur, 0x00000000);
 	}
 	return (0);
 }
@@ -184,39 +184,8 @@ int	put_line(t_mlx	*gen)
 	return (0);
 }
 
-void	put_pic(t_mlx	*gen)
+void	put_frame(t_mlx	*gen)
 {
-	init_white_back(gen);
-	gen->y = 0;
-	while (gen->y < gen->map_h)
-	{
-		gen->x = 0;
-		while (gen->x < gen->map_w - 1)
-		{
-			gen->ln.x0 = gen->fl.x[gen->y][gen->x];
-			gen->ln.x1 = gen->fl.x[gen->y][gen->x + 1];
-			gen->ln.y0 = gen->fl.y[gen->y][gen->x];
-			gen->ln.y1 = gen->fl.y[gen->y][gen->x + 1];
-			put_line(gen);
-			gen->x++;
-		}
-		gen->y++;
-	}
-	gen->x = 0;
-	while (gen->x < gen->map_w)
-	{
-		gen->y = 0;
-		while (gen->y < gen->map_h - 1)
-		{
-			gen->ln.x0 = gen->fl.x[gen->y][gen->x];
-			gen->ln.x1 = gen->fl.x[gen->y + 1][gen->x];
-			gen->ln.y0 = gen->fl.y[gen->y][gen->x];
-			gen->ln.y1 = gen->fl.y[gen->y + 1][gen->x];
-			put_line(gen);
-			gen->y++;
-		}
-		gen->x++;
-	}
 	gen->x = gen->frame;
 	while (gen->x < gen->win_w + gen->frame)
 	{
@@ -237,30 +206,130 @@ void	put_pic(t_mlx	*gen)
 	mlx_destroy_image(gen->mlx, gen->pic.img);
 }
 
-// void	printf_map(t_mlx	*gen)
-// {
-// 	int	h;
-// 	int	w;
+void	set_and_draw(t_mlx	*gen, int flag)
+{
+	if (flag == 1 || flag == 3)
+	{
+		gen->ln.x0 = gen->fl.x[gen->x][gen->y];
+		gen->ln.x1 = gen->fl.x[gen->x][gen->y + 1];
+		gen->ln.y0 = gen->fl.y[gen->x][gen->y];
+		gen->ln.y1 = gen->fl.y[gen->x][gen->y + 1];
+		put_line(gen);
+		if (flag == 1)
+			gen->y++;
+		else
+			gen->y--;
+	}
+	else if (flag == 2 || flag == 4)
+	{
+		gen->ln.x0 = gen->fl.x[gen->y][gen->x];
+		gen->ln.x1 = gen->fl.x[gen->y + 1][gen->x];
+		gen->ln.y0 = gen->fl.y[gen->y][gen->x];
+		gen->ln.y1 = gen->fl.y[gen->y + 1][gen->x];
+		put_line(gen);
+		if (flag == 2)
+			gen->y++;
+		else
+			gen->y--;
+	}
+}
 
-// 	h = 0;
-// 	w = 0;
-// 	while (h < gen->map_h)
-// 	{
-// 		w = 0;
-// 		while (w < gen->map_w)
-// 		{
-// 			printf("%.1f ", gen->map[h][w]);
-// 			w++;
-// 		}
-// 		printf("\n");
-// 		h++;
-// 	}
-// }
+void	put_case_1(t_mlx	*gen)
+{
+	gen->x = 0;
+	while (gen->x < gen->map_h)
+	{
+		gen->y = 0;
+		while (gen->y < gen->map_w - 1)
+			set_and_draw(gen, 1);
+		gen->x++;
+	}
+	gen->x = 0;
+	while (gen->x < gen->map_w)
+	{
+		gen->y = 0;
+		while (gen->y < gen->map_h - 1)
+			set_and_draw(gen, 2);
+		gen->x++;
+	}
+}
+
+void	put_case_2(t_mlx	*gen)
+{
+	gen->x = gen->map_h - 1;
+	while (gen->x >= 0)
+	{
+		gen->y = gen->map_w - 2;
+		while (gen->y >= 0)
+			set_and_draw(gen, 3);
+		gen->x--;
+	}
+	gen->x = gen->map_w - 1;
+	while (gen->x >= 0)
+	{
+		gen->y = gen->map_h - 2;
+		while (gen->y >= 0)
+			set_and_draw(gen, 4);
+		gen->x--;
+	}
+}
+
+void	put_pic(t_mlx	*gen)
+{
+	put_white_back(gen);
+	if (gen->fl.fi > 90 && gen->fl.fi < 270)
+		put_case_1(gen);
+	else
+		put_case_2(gen);
+	put_frame(gen);
+}
+
+void	printf_map(t_mlx	*gen)
+{
+	int	h;
+	int	w;
+
+	h = 0;
+	w = 0;
+	while (h < gen->map_h)
+	{
+		w = 0;
+		while (w < gen->map_w)
+		{
+			printf("%.1f ", gen->map[h][w]);
+			w++;
+		}
+		printf("\n");
+		h++;
+	}
+}
+
+void	count_size(t_mlx	*gen, int flag)
+{
+	gen->buf = get_next_line(gen->map_fd);
+	while (gen->buf)
+	{
+		if (flag == 0)
+		{
+			gen->ptr = gen->buf;
+			while (*gen->buf)
+			{
+				if (ft_isdigit(*gen->buf) && (*(gen->buf + 1) == ' '
+						|| !(*(gen->buf + 1)) || *(gen->buf + 1) == '\n'))
+					gen->map_w++;
+				gen->buf++;
+			}
+			gen->buf = gen->ptr;
+			flag = 1;
+		}
+		gen->map_h++;
+		free(gen->buf);
+		gen->buf = get_next_line(gen->map_fd);
+	}
+}
 
 int	get_map_size(t_mlx *gen)
 {
-	char	*buf;
-	char	*ptr;
 	int		flag;
 
 	gen->map_fd = open(gen->map_name, O_RDONLY);
@@ -272,27 +341,35 @@ int	get_map_size(t_mlx *gen)
 	flag = 0;
 	gen->map_h = 0;
 	gen->map_w = 0;
-	buf = get_next_line(gen->map_fd);
-	while (buf)
-	{
-		if (flag == 0)
-		{
-			ptr = buf;
-			while (*buf)
-			{
-				if (ft_isdigit(*buf) && (*(buf + 1) == ' '
-						|| !(*(buf + 1)) || *(buf + 1) == '\n'))
-					gen->map_w++;
-				buf++;
-			}
-			buf = ptr;
-			flag = 1;
-		}
-		gen->map_h++;
-		free(buf);
-		buf = get_next_line(gen->map_fd);
-	}
+	count_size(gen, flag);
 	close(gen->map_fd);
+	gen->xoffs = (float)(gen->map_h - 1) / 2;
+	gen->yoffs = (float)(gen->map_w - 1) / 2;
+	return (0);
+}
+
+int	str_to_int(t_mlx	*gen, char **spl)
+{
+	gen->map[gen->x] = malloc(sizeof(**gen->map) * gen->map_w);
+	if (!gen->map[gen->x])
+		return (1);
+	gen->y = 0;
+	while (spl[gen->y])
+	{
+		gen->map[gen->x][gen->y] = ft_atoi(spl[gen->y]);
+		if (gen->x == 0 && gen->y == 0)
+		{
+			gen->map_min = gen->map[gen->x][gen->y];
+			gen->map_max = gen->map[gen->x][gen->y];
+		}
+		else if (gen->map[gen->x][gen->y] < gen->map_min)
+			gen->map_min = gen->map[gen->x][gen->y];
+		else if (gen->map[gen->x][gen->y] > gen->map_max)
+			gen->map_max = gen->map[gen->x][gen->y];
+		free(spl[gen->y]);
+		gen->y++;
+	}
+	free(spl);
 	return (0);
 }
 
@@ -313,32 +390,12 @@ int	parse_map(t_mlx *gen)
 	{
 		spl = ft_split(str, ' ');
 		free(str);
-		gen->map[gen->x] = malloc(sizeof(**gen->map) * gen->map_w);
-		if (!gen->map[gen->x])
+		if (str_to_int(gen, spl))
 			return (1);
-		gen->y = 0;
-		while (spl[gen->y])
-		{
-			gen->map[gen->x][gen->y] = ft_atoi(spl[gen->y]);
-			if (gen->x == 0 && gen->y == 0)
-			{
-				gen->map_min = gen->map[gen->x][gen->y];
-				gen->map_max = gen->map[gen->x][gen->y];
-			}
-			else if (gen->map[gen->x][gen->y] < gen->map_min)
-				gen->map_min = gen->map[gen->x][gen->y];
-			else if (gen->map[gen->x][gen->y] > gen->map_max)
-				gen->map_max = gen->map[gen->x][gen->y];
-			free(spl[gen->y]);
-			gen->y++;
-		}
-		free(spl);
 		gen->x++;
 		str = get_next_line(gen->map_fd);
 	}
 	close(gen->map_fd);
-	gen->xoffs = (float)(gen->map_h - 1) / 2;
-	gen->yoffs = (float)(gen->map_w - 1) / 2;
 	return (0);
 }
 
@@ -357,30 +414,26 @@ void	malloc_xy(t_mlx	*gen)
 
 void	flatten(t_mlx	*gen)
 {
-	float	cfi;
-	float	sfi;
-	float	cteta;
-	float	steta;
+	t_angles	ang;
 
-	cfi = cos(M_PI / 180 * gen->fl.fi);
-	sfi = sin(M_PI / 180 * gen->fl.fi);
-	cteta = cos(M_PI / 180 * gen->fl.teta);
-	steta = sin(M_PI / 180 * gen->fl.teta);
+	ang.cfi = cos(M_PI / 180 * gen->fl.fi);
+	ang.sfi = sin(M_PI / 180 * gen->fl.fi);
+	ang.cteta = cos(M_PI / 180 * gen->fl.teta);
+	ang.steta = sin(M_PI / 180 * gen->fl.teta);
 	gen->x = 0;
 	while (gen->x < gen->map_h)
 	{
 		gen->y = 0;
 		while (gen->y < gen->map_w)
 		{
-			gen->fl.x[gen->x][gen->y]
-				= (cfi * ((float)gen->x - gen->xoffs)
-				+ sfi * ((float)gen->y - gen->yoffs)) * gen->zoom
+			gen->fl.y[gen->x][gen->y] = (ang.cfi * ((float)gen->x
+						- gen->xoffs) + ang.sfi * ((float)gen->y - gen->yoffs))
+				* gen->zoom + (float)(gen->win_w + 2 * gen->frame) / 2;
+			gen->fl.x[gen->x][gen->y] = (ang.sfi * ang.cteta * ((float)gen->x
+						- gen->xoffs) - ang.cfi * ang.cteta * ((float)gen->y
+						- gen->yoffs) - ang.steta * gen->shape
+					* gen->map[gen->x][gen->y]) * gen->zoom
 				+ (float)(gen->win_h + 2 * gen->frame) / 2;
-			gen->fl.y[gen->x][gen->y]
-				= (-sfi * cteta * ((float)gen->x - gen->xoffs)
-				+ cfi * cteta * ((float)gen->y - gen->yoffs)
-				+ steta * gen->shape * gen->map[gen->x][gen->y]) * gen->zoom
-				+ (float)(gen->win_w + 2 * gen->frame) / 2;
 			gen->y++;
 		}
 		gen->x++;
@@ -404,21 +457,74 @@ void	free_data(t_mlx	*gen)
 	free(gen->fl.y);
 }
 
+int	close_win(int keycode, t_mlx	*gen)
+{
+	if (keycode == 53)
+	{
+		mlx_destroy_window(gen->mlx, gen->win);
+		exit(0);
+	}
+	return (0);
+}
+
+int	interact(t_mlx *gen)
+{
+	// mlx_loop_hook(gen.mlx, rotate, &gen);
+	// mlx_hook(gen.win, 6, 0, mouse_move, &gen);
+	// mlx_hook(gen.win, 2, 0, rot_off, &gen);
+	// mlx_hook(gen->win, 4, 0, mouse_press, gen);
+	mlx_hook(gen->win, 17, 0, close_win, gen);
+	return (0);
+}
+
+void	limit_and_center(t_mlx *gen)
+{
+	find_min_max(gen);
+	gen->zoom = 0.8 * gen->win_w / (gen->fl.ymax - gen->fl.ymin);
+	if (gen->fl.xmax - gen->fl.xmin > 0.8 * gen->win_h)
+		gen->zoom = 0.8 * gen->win_h / (gen->fl.xmax - gen->fl.xmin);
+	gen->x = 0;
+	while (gen->x < gen->win_h)
+	{
+		gen->y = 0;
+		while (gen->y < gen->win_w)
+		{
+			gen->fl.x[gen->x][gen->y] += 1;
+				// (gen->frame + gen->win_h
+					// - gen->fl.xmax - gen->fl.xmin) / 2;
+			gen->y++;
+		}
+		gen->x++;
+	}
+}
+
 int	rotate(t_mlx *gen)
 {
 	flatten(gen);
 	put_pic(gen);
-	gen->fl.fi = gen->fl.fi - 0.3;
-	if (gen->fl.fi < -360)
-		gen->fl.fi = gen->fl.fi + 360;
-	usleep(16666);
+	gen->fl.fi = gen->fl.fi + 0.3;
+	if (gen->fl.fi > 360)
+		gen->fl.fi = gen->fl.fi - 360;
+	if (gen->fl.teta > 90)
+		gen->fl.teta = 90;
+	if (gen->fl.teta < 0)
+		gen->fl.teta = 0;
+	usleep(8333);
 	return (0);
 }
 
-int	close_win(int keycode, t_mlx	*gen)
+int mouse_move(int x, int y, t_mlx *gen)
 {
-	if (keycode == 0)
-		mlx_destroy_window(gen->mlx, gen->win);
+	(void)gen;
+	printf("%d - %d\n", x, y);
+	return (0);
+}
+
+int	default_draw(t_mlx *gen)
+{
+	flatten(gen);
+	limit_and_center(gen);
+	put_pic(gen);
 	return (0);
 }
 
@@ -433,9 +539,7 @@ int	main(void)
 	gen.win = mlx_new_window(gen.mlx, gen.win_w + 2 * gen.frame,
 			gen.win_h + 2 * gen.frame, "Fdf");
 	malloc_xy(&gen);
-	mlx_loop_hook(gen.mlx, rotate, &gen);
-	// rotate(&gen);
-	// mlx_key_hook(gen.mlx, close_win, &gen);
+	default_draw(&gen);
 	mlx_loop(gen.mlx);
 	free_data(&gen);
 	return (0);
