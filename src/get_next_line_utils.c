@@ -6,7 +6,7 @@
 /*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 16:25:45 by anemesis          #+#    #+#             */
-/*   Updated: 2022/01/14 21:53:44 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/02/21 19:49:03 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,6 @@ size_t	ft_strlen(const char	*str)
 		i++;
 	return (i);
 }
-
-// size_t	ft_strlcpy(char	*dst, const char	*src, size_t	dstsize)
-// {
-// 	size_t	i;
-
-// 	i = 0;
-// 	if (dstsize)
-// 	{
-// 		while ((i < dstsize - 1) && src[i])
-// 		{
-// 			dst[i] = src[i];
-// 			++i;
-// 		}
-// 		dst[i] = '\0';
-// 	}
-// 	while (src[i])
-// 		++i;
-// 	return (i);
-// }
 
 size_t	ft_strlcat(char	*dest, const char	*src, size_t	destsize)
 {

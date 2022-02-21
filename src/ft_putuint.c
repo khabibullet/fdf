@@ -1,32 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_putuint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/14 18:22:35 by anemesis          #+#    #+#             */
-/*   Updated: 2022/02/21 20:38:04 by anemesis         ###   ########.fr       */
+/*   Created: 2021/11/25 19:03:20 by anemesis          #+#    #+#             */
+/*   Updated: 2022/02/21 20:19:31 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf_lib.h"
 
-size_t	ft_strlcpy(char	*dst, const char	*src, size_t	dstsize)
+int	ft_putuint(unsigned int n)
 {
-	size_t	i;
+	int	count;
 
-	i = 0;
-	if (dstsize)
-	{
-		while ((i < dstsize - 1) && src[i])
-		{
-			dst[i] = src[i];
-			++i;
-		}
-		dst[i] = '\0';
-	}
-	while (src[i])
-		++i;
-	return (i);
+	count = 0;
+	if (n >= 10)
+		count += ft_putuint(n / 10);
+	count += ft_putchar(n % 10 + '0');
+	return (count);
 }

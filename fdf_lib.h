@@ -6,7 +6,7 @@
 /*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 21:08:20 by anemesis          #+#    #+#             */
-/*   Updated: 2022/02/03 17:39:03 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/02/21 22:05:00 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdio.h>
 # include <errno.h>
 # include <math.h>
+# include <stdarg.h>
 
 typedef struct t_var
 {
@@ -94,6 +95,8 @@ typedef struct t_mlx
 	int				x;
 	int				y;
 	float			**map;
+	float			***v1;
+	float			***v2;
 	char			*map_name;
 	int				map_fd;
 	char			*ptr;
@@ -104,11 +107,15 @@ typedef struct t_mlx
 	struct t_flat	fl;
 }	t_mlx;
 
-// get_next_line functions
+/**
+** get_next_line functions
+**/
 char	*get_next_line(int fd);
 char	*ft_strjoin(char	*s1, char	*s2);
 
-// libft functions
+/**	
+** libft/utils functions
+**/
 size_t	ft_strlcpy(char	*dst, const char	*src, size_t	dstsize);
 size_t	ft_strlen(const char	*str);
 size_t	ft_strlcat(char	*dest, const char	*src, size_t	destsize);
@@ -116,7 +123,18 @@ char	*ft_strchr(const char	*s, int c);
 size_t	ft_strlcpy(char	*dst, const char	*src, size_t	dstsize);
 char	**ft_split(char	const	*s, char c);
 int		ft_putchar(char c);
-int		ft_putstr(char	*s);
 int		ft_isdigit(int c);
+
+/**	
+** ft_printf functions
+**/
+int		ft_atoi(const char	*str);
+int		ft_printf(const char	*format, ...);
+int		ft_putchar(char c);
+int		ft_putstr(char	*s);
+int		ft_putnbr(int n);
+int		ft_puthex(unsigned int n, char specifier);
+int		ft_putptr(void *p);
+int		ft_putuint(unsigned int n);
 
 #endif

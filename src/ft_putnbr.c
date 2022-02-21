@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/14 18:22:35 by anemesis          #+#    #+#             */
-/*   Updated: 2022/02/21 20:38:04 by anemesis         ###   ########.fr       */
+/*   Created: 2021/10/23 20:18:32 by anemesis          #+#    #+#             */
+/*   Updated: 2022/02/21 20:19:02 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf_lib.h"
 
-size_t	ft_strlcpy(char	*dst, const char	*src, size_t	dstsize)
+int	ft_putnbr(int n)
 {
-	size_t	i;
+	unsigned int	abs;
+	int				count;
 
-	i = 0;
-	if (dstsize)
+	count = 0;
+	if (n < 0)
 	{
-		while ((i < dstsize - 1) && src[i])
-		{
-			dst[i] = src[i];
-			++i;
-		}
-		dst[i] = '\0';
+		abs = (unsigned int)(-1 * n);
+		count += ft_putchar('-');
 	}
-	while (src[i])
-		++i;
-	return (i);
+	else
+		abs = (unsigned int)n;
+	if (abs >= 10)
+		count += ft_putnbr(abs / 10);
+	count += ft_putchar(abs % 10 + '0');
+	return (count);
 }

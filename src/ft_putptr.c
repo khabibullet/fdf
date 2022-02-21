@@ -1,32 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_putptr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/14 18:22:35 by anemesis          #+#    #+#             */
-/*   Updated: 2022/02/21 20:38:04 by anemesis         ###   ########.fr       */
+/*   Created: 2021/11/25 17:39:35 by anemesis          #+#    #+#             */
+/*   Updated: 2022/02/21 20:19:14 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf_lib.h"
 
-size_t	ft_strlcpy(char	*dst, const char	*src, size_t	dstsize)
+int	ft_putptr(void *p)
 {
-	size_t	i;
+	int			rem;
+	uintptr_t	n;
+	int			flag;
+	int			count;
 
-	i = 0;
-	if (dstsize)
+	count = 0;
+	flag = 0;
+	n = (uintptr_t)p;
+	if (n >= 16)
 	{
-		while ((i < dstsize - 1) && src[i])
-		{
-			dst[i] = src[i];
-			++i;
-		}
-		dst[i] = '\0';
+		flag = 1;
+		count += ft_putptr((void *)(n / 16));
 	}
-	while (src[i])
-		++i;
-	return (i);
+	if (!flag)
+		count += ft_putstr("0x");
+	rem = n % 16;
+	if (rem > 9)
+		rem = rem - 10 + 'a';
+	else
+		rem = rem + '0';
+	count += ft_putchar(rem);
+	return (count);
 }

@@ -6,7 +6,7 @@
 #    By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/11 21:25:23 by anemesis          #+#    #+#              #
-#    Updated: 2022/01/11 22:58:42 by anemesis         ###   ########.fr        #
+#    Updated: 2022/02/21 20:53:24 by anemesis         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,16 +14,17 @@ CC = gcc
 
 CFLAGS = -c -Wall -Wextra -Werror
 
-NAME = fdf
+NAME = libfdf.a
 
-SOURCE =	ft_putchar.c	ft_putstr.c		ft_putnbr.c\
-			ft_puthex.c		ft_putuint.c	ft_putptr.c\
-			ft_printf.c\
-			get_next_line.c	get_next_line_utils.c\
+SOURCE =	src/ft_putchar.c	src/ft_putstr.c		src/ft_putnbr.c\
+			src/ft_puthex.c		src/ft_putuint.c	src/ft_putptr.c\
+			src/ft_printf.c		src/get_next_line.c	src/get_next_line_utils.c\
+			src/ft_atoi.c		src/ft_isdigit.c	src/ft_split.c\
+			src/ft_strlcpy.c
 
 OBJECTS = $(patsubst %.c, %.o, $(SOURCE))
 
-HEADER = ft_printf.h
+HEADER = fdf_lib.h
 
 all: $(NAME)
 
