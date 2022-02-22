@@ -6,7 +6,7 @@
 /*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 21:08:20 by anemesis          #+#    #+#             */
-/*   Updated: 2022/02/21 22:05:00 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/02/22 19:29:12 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct t_mlx
 	void			*win;
 	int				map_h;
 	int				map_w;
+	char			*map_name;
 	float			xoffs;
 	float			yoffs;
 	int				frame;
@@ -90,15 +91,15 @@ typedef struct t_mlx
 	int				map_max;
 	int				shape;
 	float			zoom;
+	int				wsize[2]; //[height, width]
+	int				msize[2]; //[height, width]
 	int				win_h;
 	int				win_w;
 	int				x;
 	int				y;
-	float			**map;
+	int				**map;
 	float			***v1;
 	float			***v2;
-	char			*map_name;
-	int				map_fd;
 	char			*ptr;
 	char			*buf;
 	int				keycode;
@@ -136,5 +137,14 @@ int		ft_putnbr(int n);
 int		ft_puthex(unsigned int n, char specifier);
 int		ft_putptr(void *p);
 int		ft_putuint(unsigned int n);
+
+/**	
+** parcer.c functions
+**/
+void	count_size(int fd, int	*msize);
+int		get_map_size(int	*msize, char	*mapname);
+int		*str_to_int(char **spl, int **map, int i, int *msize);
+int		**parse_map(t_mlx	*gen, int	**map, int	*msize, char	*mapname);
+void	print_array(int	**arr, int h, int w);
 
 #endif
