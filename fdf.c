@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
+/*   By: anemesis <anemesis@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:02:00 by anemesis          #+#    #+#             */
-/*   Updated: 2022/02/22 19:18:34 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/02/24 01:52:43 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -308,100 +308,7 @@ void	put_pic(t_mlx	*gen)
 // 	}
 // }
 
-void	count_size(int fd, int	*msize)
-{
-	int		flag;
-	char	*buf;
-	char	*ptr;
-
-	flag = 0;
-	buf = get_next_line(fd);
-	while (buf)
-	{
-		if (flag == 0)
-		{
-			ptr = buf;
-			while (*buf)
-			{
-				if (ft_isdigit(*buf) && (*(buf + 1) == ' '
-						|| !(*(buf + 1)) || *(buf + 1) == '\n'))
-					msize[1]++;
-				buf++;
-			}
-			buf = ptr;
-			flag = 1;
-		}
-		msize[0]++;
-		free(buf);
-		buf = get_next_line(fd);
-	}
-}
-
-int	get_map_size(int	*msize, char	*mapname)
-{
-	int	fd;
-
-	fd = open(mapname, O_RDONLY);
-	if (fd < 0)
-	{
-		perror("Map error");
-		return (1);
-	}
-	msize[0] = 0;
-	msize[1] = 0;
-	count_size(fd, msize);
-	close(fd);
-	return (0);
-}
-
-int	*str_to_int(char **spl, int **map, int i, int *msize)
-{
-	int	j;
-
-	map[i] = malloc(sizeof(*map) * msize[1]);
-	if (!map[i])
-		return (NULL);
-	j = 0;
-	while (spl[j])
-	{
-		map[i][j] = ft_atoi(spl[j]);
-		free(spl[j]);
-		j++;
-	}
-	free(spl);
-	return (map[i]);
-}
-
-int	**parse_map(t_mlx	*gen, int	**map, int	*msize, char	*mapname)
-{
-	char	*str;
-	char	**spl;
-	int		fd;
-	int		i;
-
-	if (get_map_size(msize, mapname))
-		return (NULL);
-	fd = open(mapname, O_RDONLY);
-	map = malloc(sizeof(*map) * msize[0]);
-	if (!map)
-		return (NULL);
-	i = 0;
-	while (i < msize[0])
-	{
-		str = get_next_line(fd);
-		spl = ft_split(str, ' ');
-		free(str);
-		map[i] = str_to_int(spl, map, i, msize);
-		if (!map[i])
-			return (NULL);
-		i++;
-	}
-	close(fd);
-	gen->map = map;
-	return (map);
-}
-
-void	print_array(int	**arr, int h, int w)
+void	print_array(float	**arr, int h, int w)
 {
 	int		x;
 	int		y;
@@ -420,29 +327,6 @@ void	print_array(int	**arr, int h, int w)
 			x++;
 		}
 		y++;
-	}
-}
-
-void	malloc_vectors(t_mlx	*gen, int	h, int	w)
-{
-	int	y;
-	int	v;
-
-	gen->v1 = malloc(sizeof(*gen->v1) * 3);
-	gen->v2 = malloc(sizeof(*gen->v2) * 3);
-	v = 0;
-	while (v < 3)
-	{
-		y = 0;
-		gen->v1[v] = malloc(sizeof(*gen->v1[v]) * h);
-		gen->v2[v] = malloc(sizeof(*gen->v2[v]) * h);
-		while (y < h)
-		{
-			gen->v1[v][y] = malloc(sizeof(*gen->v1[v][y]) * w);
-			gen->v2[v][y] = malloc(sizeof(*gen->v2[v][y]) * w);
-			y++;
-		}
-		v++;
 	}
 }
 
@@ -566,16 +450,13 @@ int	main(void)
 {
 	t_mlx	gen;
 
-	def_vars(&gen);
-	if (!parse_map(&gen, gen.map, gen.msize, "maps/plat.fdf"))
-		return (1);
-	print_array(gen.map, gen.msize[0], gen.msize[1]);
-	// malloc_vectors(&gen, gen.msize[0], gen.msize[1]);
+	parse_map(gen.v1, gen.v2, gen.msize, "maps/plat.fdf");
+	// print_array(gen.v1[2], gen.msize[0], gen.msize[1]);
 	// gen.mlx = mlx_init(); 
 	// gen.win = mlx_new_window(gen.mlx, gen.win_w + 2 * gen.frame,
 	// 		gen.win_h + 2 * gen.frame, "Fdf");
 	// default_draw(&gen);
 	// mlx_loop(gen.mlx);
 	// free_data(&gen);
-	return (0);
+	exit (EXIT_SUCCESS);
 }

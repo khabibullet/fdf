@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parcer.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
+/*   By: anemesis <anemesis@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 19:25:17 by anemesis          #+#    #+#             */
-/*   Updated: 2022/02/22 19:29:18 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/02/24 01:52:41 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	count_size(int fd, int	*msize)
 	}
 }
 
-int	get_map_size(int	*msize, char	*mapname)
+void	get_map_size(int	*msize, char	*mapname)
 {
 	int	fd;
 
@@ -49,80 +49,83 @@ int	get_map_size(int	*msize, char	*mapname)
 	if (fd < 0)
 	{
 		perror("Map error");
-		return (1);
+		exit (EXIT_FAILURE);
 	}
 	msize[0] = 0;
 	msize[1] = 0;
 	count_size(fd, msize);
 	close(fd);
-	return (0);
 }
 
-int	*str_to_int(char **spl, int **map, int i, int *msize)
+void	str_to_int(char **spl, float ***v1, int h, int *msize)
 {
-	int	j;
+	int		w;
+	float	xoffs;
+	float	yoffs;
 
-	map[i] = malloc(sizeof(*map) * msize[1]);
-	if (!map[i])
-		return (NULL);
-	j = 0;
-	while (spl[j])
+	xoffs = (float)msize[1] / 2;
+	yoffs = (float)msize[0] / 2;
+	w = 0;
+	while (spl[w])
 	{
-		map[i][j] = ft_atoi(spl[j]);
-		free(spl[j]);
-		j++;
+		v1[0][h][w] = (float)w - xoffs;
+		v1[1][h][w] = (float)h - yoffs;
+		v1[2][h][w] = (float)ft_atoi(spl[w]);
+		free(spl[w]);
+		w++;
 	}
 	free(spl);
-	return (map[i]);
 }
 
-int	**parse_map(t_mlx	*gen, int	**map, int	*msize, char	*mapname)
+void	parse_map(float ***v1, float ***v2, int *msize, char *mapname)
 {
 	char	*str;
 	char	**spl;
 	int		fd;
-	int		i;
+	int		h;
 
-	if (get_map_size(msize, mapname))
-		return (NULL);
+	get_map_size(msize, mapname);
+	malloc_vectors(&v1, &v2, msize[0], msize[1]);
 	fd = open(mapname, O_RDONLY);
-	map = malloc(sizeof(*map) * msize[0]);
-	if (!map)
-		return (NULL);
-	i = 0;
-	while (i < msize[0])
+	if (fd < 0)
+		exit (EXIT_FAILURE);
+	h = 0;
+	while (h < msize[0])
 	{
 		str = get_next_line(fd);
 		spl = ft_split(str, ' ');
 		free(str);
-		map[i] = str_to_int(spl, map, i, msize);
-		if (!map[i])
-			return (NULL);
-		i++;
+		str_to_int(spl, v1, h, msize);
+		h++;
 	}
 	close(fd);
-	gen->map = map;
-	return (map);
 }
 
-void	print_array(int	**arr, int h, int w)
+void	malloc_vectors(float ****v1p, float ****v2p, int h, int w)
 {
-	int		x;
-	int		y;
-	char	c;
+	int	y;
+	int	d;
 
-	y = 0;
-	while (y < h)
+	*v1p = malloc(sizeof(**v1p) * 3);
+	*v2p = malloc(sizeof(**v2p) * 3);
+	if (!(*v1p) || !(*v2p))
+		exit (EXIT_FAILURE);
+	d = 0;
+	while (d < 3)
 	{
-		x = 0;
-		c = ' ';
-		while (x < w)
+		y = 0;
+		(*v1p)[d] = malloc(sizeof(***v1p) * h);
+		(*v2p)[d] = malloc(sizeof(***v2p) * h);
+		if (!(*v1p)[d] || !(*v2p)[d])
+			exit (EXIT_FAILURE);
+		while (y < h)
 		{
-			if (x == w - 1)
-				c = '\n';
-			ft_printf("%d%c", (int)arr[y][x], c);
-			x++;
+			(*v1p)[d][y] = malloc(sizeof(****v1p) * w);
+			(*v2p)[d][y] = malloc(sizeof(****v2p) * w);
+			if (!(*v1p)[d][y] || !(*v2p)[d][y])
+				exit (EXIT_FAILURE);
+			y++;
 		}
-		y++;
+		d++;
 	}
 }

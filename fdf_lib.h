@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf_lib.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
+/*   By: anemesis <anemesis@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 21:08:20 by anemesis          #+#    #+#             */
-/*   Updated: 2022/02/22 19:29:12 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/02/24 01:52:42 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,9 +142,9 @@ int		ft_putuint(unsigned int n);
 ** parcer.c functions
 **/
 void	count_size(int fd, int	*msize);
-int		get_map_size(int	*msize, char	*mapname);
-int		*str_to_int(char **spl, int **map, int i, int *msize);
-int		**parse_map(t_mlx	*gen, int	**map, int	*msize, char	*mapname);
-void	print_array(int	**arr, int h, int w);
+void	get_map_size(int	*msize, char	*mapname);
+void	str_to_int(char **spl, float ***v1, int h, int *msize);
+void	parse_map(float ***v1, float ***v2, int *msize, char *mapname);
+void	malloc_vectors(float ****v1p, float ****v2p, int h, int w);
 
 #endif
