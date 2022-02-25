@@ -6,7 +6,7 @@
 /*   By: anemesis <anemesis@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 21:08:20 by anemesis          #+#    #+#             */
-/*   Updated: 2022/02/24 01:52:42 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/02/25 12:54:42 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,28 +81,14 @@ typedef struct t_mlx
 {
 	void			*mlx;
 	void			*win;
-	int				map_h;
-	int				map_w;
-	char			*map_name;
-	float			xoffs;
-	float			yoffs;
 	int				frame;
-	int				map_min;
-	int				map_max;
-	int				shape;
-	float			zoom;
-	int				wsize[2]; //[height, width]
-	int				msize[2]; //[height, width]
-	int				win_h;
-	int				win_w;
-	int				x;
-	int				y;
-	int				**map;
+	float			shift[3];
+	float			rot[3][3];
+	float			angles[2]; // [fi, teta] in degrees
+	int				wsize[2]; // window [height, width]
+	int				msize[2]; // map [height, width]
 	float			***v1;
 	float			***v2;
-	char			*ptr;
-	char			*buf;
-	int				keycode;
 	struct t_img	pic;
 	struct t_line	ln;
 	struct t_flat	fl;
@@ -139,12 +125,12 @@ int		ft_putptr(void *p);
 int		ft_putuint(unsigned int n);
 
 /**	
-** parcer.c functions
+** parser.c functions
 **/
 void	count_size(int fd, int	*msize);
 void	get_map_size(int	*msize, char	*mapname);
 void	str_to_int(char **spl, float ***v1, int h, int *msize);
-void	parse_map(float ***v1, float ***v2, int *msize, char *mapname);
 void	malloc_vectors(float ****v1p, float ****v2p, int h, int w);
+void	get_parsed(float ****v1p, float ****v2p, int *msize, char *mapname);
 
 #endif

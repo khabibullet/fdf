@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parcer.c                                           :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anemesis <anemesis@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 19:25:17 by anemesis          #+#    #+#             */
-/*   Updated: 2022/02/24 01:52:41 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/02/25 00:23:36 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,30 +77,6 @@ void	str_to_int(char **spl, float ***v1, int h, int *msize)
 	free(spl);
 }
 
-void	parse_map(float ***v1, float ***v2, int *msize, char *mapname)
-{
-	char	*str;
-	char	**spl;
-	int		fd;
-	int		h;
-
-	get_map_size(msize, mapname);
-	malloc_vectors(&v1, &v2, msize[0], msize[1]);
-	fd = open(mapname, O_RDONLY);
-	if (fd < 0)
-		exit (EXIT_FAILURE);
-	h = 0;
-	while (h < msize[0])
-	{
-		str = get_next_line(fd);
-		spl = ft_split(str, ' ');
-		free(str);
-		str_to_int(spl, v1, h, msize);
-		h++;
-	}
-	close(fd);
-}
-
 void	malloc_vectors(float ****v1p, float ****v2p, int h, int w)
 {
 	int	y;
@@ -128,4 +104,28 @@ void	malloc_vectors(float ****v1p, float ****v2p, int h, int w)
 		}
 		d++;
 	}
+}
+
+void	get_parsed(float ****v1p, float ****v2p, int *msize, char *mapname)
+{
+	char	*str;
+	char	**spl;
+	int		fd;
+	int		h;
+
+	get_map_size(msize, mapname);
+	malloc_vectors(v1p, v2p, msize[0], msize[1]);
+	fd = open(mapname, O_RDONLY);
+	if (fd < 0)
+		exit (EXIT_FAILURE);
+	h = 0;
+	while (h < msize[0])
+	{
+		str = get_next_line(fd);
+		spl = ft_split(str, ' ');
+		free(str);
+		str_to_int(spl, *v1p, h, msize);
+		h++;
+	}
+	close(fd);
 }
