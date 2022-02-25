@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf_lib.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anemesis <anemesis@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 21:08:20 by anemesis          #+#    #+#             */
-/*   Updated: 2022/02/25 12:54:42 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/02/25 21:53:33 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ typedef struct t_var
 typedef struct t_img
 {
 	void	*img;
-	int		bits_per_pix;
-	int		line_len;
+	int		depth;
+	int		len;
 	int		end;
 	char	*addr;
 }	t_img;
@@ -81,7 +81,7 @@ typedef struct t_mlx
 {
 	void			*mlx;
 	void			*win;
-	int				frame;
+	float			focal;
 	float			shift[3];
 	float			rot[3][3];
 	float			angles[2]; // [fi, teta] in degrees
@@ -132,5 +132,21 @@ void	get_map_size(int	*msize, char	*mapname);
 void	str_to_int(char **spl, float ***v1, int h, int *msize);
 void	malloc_vectors(float ****v1p, float ****v2p, int h, int w);
 void	get_parsed(float ****v1p, float ****v2p, int *msize, char *mapname);
+
+/**	
+** printer.c functions
+**/
+
+void	print_ptr_array(float	**arr, int h, int w);
+void	print_3x3_array(float arr[3][3]);
+
+/**	
+** transform.c functions
+**/
+
+void	get_rot_matrix(float rot[3][3], float *angles);
+void	rotate_cam(float ***v1, float ***v2, float *angles, int	*msize);
+void	get_shifted(float ***v1, float *shift, int	*msize);
+void	move_cam(t_mlx	*gen, float *shift, float *angles, int *msize);
 
 #endif

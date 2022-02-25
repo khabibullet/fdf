@@ -3,111 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anemesis <anemesis@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:02:00 by anemesis          #+#    #+#             */
-/*   Updated: 2022/02/25 12:54:41 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/02/25 21:53:30 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf_lib.h"
 
-void	print_ptr_array(float	**arr, int h, int w)
+void	my_mlx_pixel_put(t_img *pic, int x, int y, unsigned int color)
 {
-	int		x;
-	int		y;
-	char	c;
+	char	*dst;
 
-	y = 0;
-	while (y < h)
-	{
-		x = 0;
-		c = ' ';
-		while (x < w)
-		{
-			if (x == w - 1)
-				c = '\n';
-			printf("%.1f%c", arr[y][x], c);
-			x++;
-		}
-		y++;
-	}
+	dst = pic->addr + (y * pic->len + x * (pic->depth / 8));
+	if (*(unsigned int *)dst == 0x00FFFFFF)
+		*(unsigned int *)dst = color;
 }
-
-void	print_3x3_array(float arr[3][3])
-{
-	int		x;
-	int		y;
-	char	c;
-
-	y = 0;
-	while (y < 3)
-	{
-		x = 0;
-		c = ' ';
-		while (x < 3)
-		{
-			if (x == 2)
-				c = '\n';
-			printf("%.1f%c", arr[y][x], c);
-			x++;
-		}
-		y++;
-	}
-}
-
-// void	find_min_max(t_mlx	*gen)
-// {
-// 	gen->fl.xmax = gen->fl.x[0][0];
-// 	gen->fl.xmin = gen->fl.x[0][0];
-// 	gen->fl.ymax = gen->fl.y[0][0];
-// 	gen->fl.ymin = gen->fl.y[0][0];
-// 	gen->y = 0;
-// 	while (gen->y < gen->map_h)
-// 	{
-// 		gen->x = 0;
-// 		while (gen->x < gen->map_w)
-// 		{
-// 			if (gen->fl.x[gen->y][gen->x] > gen->fl.xmax)
-// 				gen->fl.xmax = gen->fl.x[gen->y][gen->x];
-// 			if (gen->fl.x[gen->y][gen->x] < gen->fl.xmin)
-// 				gen->fl.xmin = gen->fl.x[gen->y][gen->x];
-// 			if (gen->fl.y[gen->y][gen->x] > gen->fl.ymax)
-// 				gen->fl.ymax = gen->fl.y[gen->y][gen->x];
-// 			if (gen->fl.y[gen->y][gen->x] < gen->fl.ymin)
-// 				gen->fl.ymin = gen->fl.y[gen->y][gen->x];
-// 			gen->x++;
-// 		}
-// 		gen->y++;
-// 	}
-// }
-
-// void	my_mlx_pixel_put(t_img *gen, int x, int y, unsigned int color)
-// {
-// 	char	*dst;
-
-// 	dst = gen->addr + (y * gen->line_len + x * (gen->bits_per_pix / 8));
-// 	*(unsigned int *)dst = color;
-// }
-
-// void	put_white_back(t_mlx	*gen)
-// {
-// 	gen->pic.img = mlx_new_image(gen->mlx, gen->win_w
-// 			+ 2 * gen->frame, gen->win_h + 2 * gen->frame);
-// 	gen->pic.addr = mlx_get_data_addr(gen->pic.img,
-// 			&gen->pic.bits_per_pix, &gen->pic.line_len, &gen->pic.end);
-// 	gen->x = 0;
-// 	while (gen->x < gen->win_h + 2 * gen->frame)
-// 	{
-// 		gen->y = 0;
-// 		while (gen->y < gen->win_w + 2 * gen->frame)
-// 		{
-// 			my_mlx_pixel_put(&gen->pic, gen->y, gen->x, 0x00FFFFFF);
-// 			gen->y++;
-// 		}
-// 		gen->x++;
-// 	}
-// }
 
 // void	swap_xy(t_mlx	*gen)
 // {
@@ -208,28 +120,6 @@ void	print_3x3_array(float arr[3][3])
 // 	return (0);
 // }
 
-// void	put_frame(t_mlx	*gen)
-// {
-// 	gen->x = gen->frame;
-// 	while (gen->x < gen->win_w + gen->frame)
-// 	{
-// 		my_mlx_pixel_put(&gen->pic, gen->x, gen->frame, 0x00000000);
-// 		my_mlx_pixel_put(&gen->pic, gen->x, gen->win_h
-// 			+ gen->frame, 0x00000000);
-// 		gen->x++;
-// 	}
-// 	gen->y = gen->frame;
-// 	while (gen->y <= gen->win_h + gen->frame)
-// 	{
-// 		my_mlx_pixel_put(&gen->pic, gen->frame, gen->y, 0x00000000);
-// 		my_mlx_pixel_put(&gen->pic, gen->win_w
-// 			+ gen->frame, gen->y, 0x00000000);
-// 		gen->y++;
-// 	}
-// 	mlx_put_image_to_window(gen->mlx, gen->win, gen->pic.img, 0, 0);
-// 	mlx_destroy_image(gen->mlx, gen->pic.img);
-// }
-
 // void	set_and_draw(t_mlx	*gen, int flag)
 // {
 // 	if (flag == 1 || flag == 3)
@@ -298,179 +188,113 @@ void	print_3x3_array(float arr[3][3])
 // 	}
 // }
 
-// void	put_pic(t_mlx	*gen)
-// {
-// 	put_white_back(gen);
-// 	if (gen->fl.fi > 90 && gen->fl.fi < 270)
-// 		put_case_1(gen);
-// 	else
-// 		put_case_2(gen);
-// 	put_frame(gen);
-// }
-
-// void	flatten(t_mlx	*gen)
-// {
-// 	t_angles	ang;
-
-// 	ang.cfi = cos(M_PI / 180 * gen->fl.fi);
-// 	ang.sfi = sin(M_PI / 180 * gen->fl.fi);
-// 	ang.cteta = cos(M_PI / 180 * gen->fl.teta);
-// 	ang.steta = sin(M_PI / 180 * gen->fl.teta);
-// 	gen->x = 0;
-// 	while (gen->x < gen->map_h)
-// 	{
-// 		gen->y = 0;
-// 		while (gen->y < gen->map_w)
-// 		{
-// 			gen->fl.y[gen->x][gen->y] = (ang.cfi * ((float)gen->x
-// 						- gen->xoffs) + ang.sfi * ((float)gen->y - gen->yoffs))
-// 				* gen->zoom + (float)(gen->win_w + 2 * gen->frame) / 2;
-// 			gen->fl.x[gen->x][gen->y] = (ang.sfi * ang.cteta * ((float)gen->x
-// 						- gen->xoffs) - ang.cfi * ang.cteta * ((float)gen->y
-// 						- gen->yoffs) - ang.steta * gen->shape
-// 					* gen->map[gen->x][gen->y]) * gen->zoom
-// 				+ (float)(gen->win_h + 2 * gen->frame) / 2;
-// 			gen->y++;
-// 		}
-// 		gen->x++;
-// 	}
-// }
-
-// void	free_data(t_mlx	*gen)
-// {
-// 	int	h;
-
-// 	h = 0;
-// 	while (h < gen->map_h)
-// 	{
-// 		free(gen->map[h]);
-// 		free(gen->fl.x[h]);
-// 		free(gen->fl.y[h]);
-// 		h++;
-// 	}
-// 	free(gen->map);
-// 	free(gen->fl.x);
-// 	free(gen->fl.y);
-// }
-
-// int	close_win(int keycode, t_mlx	*gen)
-// {
-// 	if (keycode == 53)
-// 	{
-// 		mlx_destroy_window(gen->mlx, gen->win);
-// 		exit(0);
-// 	}
-// 	return (0);
-// }
-
-// int	interact(t_mlx *gen)
-// {
-// 	// mlx_loop_hook(gen.mlx, rotate, &gen);
-// 	// mlx_hook(gen.win, 6, 0, mouse_move, &gen);
-// 	// mlx_hook(gen.win, 2, 0, rot_off, &gen);
-// 	// mlx_hook(gen->win, 4, 0, mouse_press, gen);
-// 	mlx_hook(gen->win, 17, 0, close_win, gen);
-// 	return (0);
-// }
-
-// void	limit_and_center(t_mlx *gen)
-// {
-// 	find_min_max(gen);
-// 	gen->zoom = 0.8 * gen->win_w / (gen->fl.ymax - gen->fl.ymin);
-// 	if (gen->fl.xmax - gen->fl.xmin > 0.8 * gen->win_h)
-// 		gen->zoom = 0.8 * gen->win_h / (gen->fl.xmax - gen->fl.xmin);
-// 	gen->x = 0;
-// 	while (gen->x < gen->win_h)
-// 	{
-// 		gen->y = 0;
-// 		while (gen->y < gen->win_w)
-// 		{
-// 			gen->fl.x[gen->x][gen->y] += 1;
-// 				// (gen->frame + gen->win_h
-// 					// - gen->fl.xmax - gen->fl.xmin) / 2;
-// 			gen->y++;
-// 		}
-// 		gen->x++;
-// 	}
-// }
-
-// int	rotate(t_mlx *gen)
-// {
-// 	flatten(gen);
-// 	put_pic(gen);
-// 	gen->fl.fi = gen->fl.fi + 0.3;
-// 	if (gen->fl.fi > 360)
-// 		gen->fl.fi = gen->fl.fi - 360;
-// 	if (gen->fl.teta > 90)
-// 		gen->fl.teta = 90;
-// 	if (gen->fl.teta < 0)
-// 		gen->fl.teta = 0;
-// 	usleep(8333);
-// 	return (0);
-// }
-
-// int mouse_move(int x, int y, t_mlx *gen)
-// {
-// 	(void)gen;
-// 	printf("%d - %d\n", x, y);
-// 	return (0);
-// }
-
-// int	default_draw(t_mlx *gen)
-// {
-// 	flatten(gen);
-// 	limit_and_center(gen);
-// 	put_pic(gen);
-// 	return (0);
-// }
-
-void	get_rot_matrix(float rot[3][3], float *angles)
+void	get_persp_projection(float ***v1, float focal, int *wsize, int *msize)
 {
-	float	fi;
-	float	teta;
+	int		h;
+	int		w;
+	float	z;
 
-	fi = -angles[0] / 180 * M_PI;
-	teta = -angles[1] / 180 * M_PI;
-
-	rot[0][2] = 0;
-	rot[0][0] = cos(fi);
-	rot[0][1] = sin(fi);
-	rot[1][2] = sin(teta);
-	rot[2][2] = cos(teta);
-	rot[1][0] = -rot[0][1] * rot[2][2];
-	rot[1][1] = rot[0][0] * rot[2][2];
-	rot[2][0] = rot[0][1] * rot[1][2];
-	rot[2][1] = -rot[1][2] * rot[0][0];
-
-	angles[0] = -fi * 180 / M_PI;
-	angles[1] = -teta * 180 / M_PI;
+	h = 0;
+	while (h < msize[0])
+	{
+		w = 0;
+		while (w < msize[1])
+		{
+			z = v1[2][h][w];
+			v1[0][h][w] = (f * v1[0][h][w] / z) + wsize[0] / 2;
+			v1[1][h][w] = -(f * v1[1][h][w] / z) + wsize[1] / 2;
+			v1[2][h][w] = f;
+			w++;
+		}
+		h++;
+	}
 }
 
-// void	move_cam(float ****v1, float ****v2, int *shift, float rot[3][3])
-// {
-// 	int	h;
-// 	int	w;
+void	get_isomet_projection(float ***v1, float focal, int *wsize, int *msize)
+{
+	int		h;
+	int		w;
+	float	z;
 
-// 	while (h < )
-// }
+	z = average(v1[2], msize);
+	h = 0;
+	while (h < msize[0])
+	{
+		w = 0;
+		while (w < msize[1])
+		{
+			v1[0][h][w] = (f * v1[0][h][w] / z) + wsize[0] / 2;
+			v1[1][h][w] = -(f * v1[1][h][w] / z) + wsize[1] / 2;
+			v1[2][h][w] = f;
+			w++;
+		}
+		h++;
+	}
+}
 
+void	put_white_back(t_img *pic, void *mlx, int *wsize)
+{
+	int		x;
+	int		y;
+	char	*dst;
+
+	pic->img = mlx_new_image(mlx, wsize[1], wsize[0]);
+	pic->addr = mlx_get_data_addr(pic->img,
+			&pic->depth, &pic->len, &pic->end);
+	y = 0;
+	while (y < wsize[0])
+	{
+		x = 0;
+		while (x < wsize[1])
+		{
+			dst = pic->addr + (y * pic->len + x * (pic->depth / 8));
+			*(unsigned int *)dst = 0x00FFFFFF;
+			x++;
+		}
+		y++;
+	}
+}
+
+void	draw_map(t_mlx	*gen)
+{
+	put_white_back(&gen->pic, gen->mlx, gen->wsize);
+	get_persp_projection(gen->v1, gen->focal, gen->wsize, gen->msize);
+	get_isomet_projection(gen->v1, gen->focal, gen->wsize, gen->msize);
+	mlx_put_image_to_window(gen->mlx, gen->win, gen->pic.img, 0, 0);
+	mlx_destroy_image(gen->mlx, gen->pic.img);
+}
+
+/*
+	** v1 vector is vector to be plotted
+	** v2 is vector which stores unrotated coordinates
+*/
+
+void	get_defaults(t_mlx	*gen)
+{
+	gen->angles[0] = 0;
+	gen->angles[1] = 0;
+	gen->shift[0] = 0;
+	gen->shift[1] = 0;
+	gen->shift[2] = -15;
+	gen->wsize[0] = 500;
+	gen->wsize[1] = 700;
+	gen->focal = gen->wsize[0] / tan(60 / 180 * M_PI) / 2;
+}
 
 int	main(void)
 {
 	t_mlx	gen;
 
 	get_parsed(&gen.v1, &gen.v2, gen.msize, "maps/plat.fdf");
+	get_defaults(&gen);
+	move_cam(&gen, gen.shift, gen.angles, gen.msize);
 	gen.angles[0] = 45;
 	gen.angles[1] = 45;
-	get_rot_matrix(gen.rot, gen.angles);
-	print_3x3_array(gen.rot);
-	// move_cam(&gen.v1, &genv1, gen.shift, gen.rot);
-	// print_ptr_array(gen.v1[2], gen.msize[0], gen.msize[1]);
-	// gen.mlx = mlx_init(); 
-	// gen.win = mlx_new_window(gen.mlx, gen.win_w + 2 * gen.frame,
-	// 		gen.win_h + 2 * gen.frame, "Fdf");
-	// default_draw(&gen);
-	// mlx_loop(gen.mlx);
-	// free_data(&gen);
+	rotate_cam(gen.v2, gen.v1, gen.angles, gen.msize);
+	print_ptr_array(gen.v1[0], gen.msize[0], gen.msize[1]);
+	gen.mlx = mlx_init();
+	gen.win = mlx_new_window(gen.mlx, gen.wsize[1], gen.wsize[0], "Fdf");
+	draw_map(&gen);
+	mlx_loop(gen.mlx);
 	exit (EXIT_SUCCESS);
 }

@@ -21,17 +21,11 @@ void	f_add(int	***c)
 
 int	main(void)
 {
-	int	a[2][2];
-	int	**b;
-	int *c;
+	int		a;
+	float	d;
+	int		b;
 
-	a[0][0] = 1;
-	a[0][1] = 2;
-	a[1][0] = 1;
-	a[1][1] = 2;
-
-	b = &a[0];
-	// printf("%d\n", *(*b + 1));
-	printf("%d\n", *c);
-	printf("%d\n", a[0][0]);
+	a = 9;
+	d = (float)a / 2;
+	printf("%f\n", d);
 }
