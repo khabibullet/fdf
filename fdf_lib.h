@@ -6,7 +6,7 @@
 /*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 21:08:20 by anemesis          #+#    #+#             */
-/*   Updated: 2022/02/25 21:53:33 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/02/28 19:08:45 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,12 @@ typedef struct t_img
 
 typedef struct t_line
 {
-	float	x0;
-	float	y0;
 	float	x1;
 	float	y1;
-	float	buf;
-	int		flag;
+	float	x2;
+	float	y2;
 	int		sgn;
+	int		flag;
 	float	x;
 	float	y;
 	float	dx;
@@ -56,26 +55,6 @@ typedef struct t_line
 	float	err;
 	float	ycur;
 }	t_line;
-
-typedef struct t_flat
-{
-	float	**x;
-	float	**y;
-	float	fi;
-	float	teta;
-	float	xmax;
-	float	xmin;
-	float	ymax;
-	float	ymin;
-}	t_flat;
-
-typedef struct t_angles
-{
-	float	cfi;
-	float	sfi;
-	float	cteta;
-	float	steta;
-}	t_angles;
 
 typedef struct t_mlx
 {
@@ -91,7 +70,6 @@ typedef struct t_mlx
 	float			***v2;
 	struct t_img	pic;
 	struct t_line	ln;
-	struct t_flat	fl;
 }	t_mlx;
 
 /**

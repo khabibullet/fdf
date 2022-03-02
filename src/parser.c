@@ -6,7 +6,7 @@
 /*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 19:25:17 by anemesis          #+#    #+#             */
-/*   Updated: 2022/02/25 19:33:54 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/03/02 16:28:33 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,13 @@ void	str_to_int(char **spl, float ***v1, int h, int *msize)
 	float	xoffs;
 	float	yoffs;
 
-	xoffs = (float)(msize[0] - 1) / 2;
-	yoffs = (float)(msize[1] - 1) / 2;
+	xoffs = (float)(msize[1] - 1) / 2;
+	yoffs = (float)(msize[0] - 1) / 2;
 	w = 0;
 	while (spl[w])
 	{
-		v1[0][h][w] = (float)h - xoffs;
-		v1[1][h][w] = (float)w - yoffs;
+		v1[0][h][w] = (float)w - xoffs;
+		v1[1][h][w] = (float)h - yoffs;
 		v1[2][h][w] = (float)ft_atoi(spl[w]);
 		free(spl[w]);
 		w++;

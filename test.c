@@ -19,13 +19,15 @@ void	f_add(int	***c)
 	// *(*(*c + 1) + 1) = 4;
 }
 
+void	funk2(float a[4])
+{
+	printf("%f\n", a[1]);
+}
+
 int	main(void)
 {
-	int		a;
-	float	d;
-	int		b;
+	float xxyy[4];
 
-	a = 9;
-	d = (float)a / 2;
-	printf("%f\n", d);
+	xxyy = (float [4]){0, 1, 2, 3};
+	funk2(xxyy);
 }
