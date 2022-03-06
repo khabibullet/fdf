@@ -6,7 +6,7 @@
 /*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 21:08:20 by anemesis          #+#    #+#             */
-/*   Updated: 2022/02/28 19:08:45 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/03/06 21:23:31 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,20 @@
 # include <errno.h>
 # include <math.h>
 # include <stdarg.h>
+
+# define KEY_Q		12
+# define KEY_W		13
+# define KEY_E		14
+# define KEY_A		0
+# define KEY_S		1
+# define KEY_D		2
+# define KEY_P		35
+# define KEY_ESC	53
+
+# define X_EVENT_KEY_PRESS		2
+# define X_EVENT_KEY_RELEASE	3
+# define X_EVENT_MOUSE_MOVE		6
+# define X_EVENT_EXIT			17
 
 typedef struct t_var
 {
@@ -60,14 +74,17 @@ typedef struct t_mlx
 {
 	void			*mlx;
 	void			*win;
-	float			focal;
+	float			foc;
 	float			shift[3];
 	float			rot[3][3];
-	float			angles[2]; // [fi, teta] in degrees
-	int				wsize[2]; // window [height, width]
-	int				msize[2]; // map [height, width]
+	float			angles[2];
+	int				wsize[2];
+	int				msize[2];
 	float			***v1;
 	float			***v2;
+	float			mouse_sens;
+	float			shift_sens;
+	int				proj_type;
 	struct t_img	pic;
 	struct t_line	ln;
 }	t_mlx;
@@ -103,7 +120,7 @@ int		ft_putptr(void *p);
 int		ft_putuint(unsigned int n);
 
 /**	
-** parser.c functions
+** parse.c functions
 **/
 void	count_size(int fd, int	*msize);
 void	get_map_size(int	*msize, char	*mapname);
@@ -112,7 +129,13 @@ void	malloc_vectors(float ****v1p, float ****v2p, int h, int w);
 void	get_parsed(float ****v1p, float ****v2p, int *msize, char *mapname);
 
 /**	
-** printer.c functions
+** main_funcs.c functions
+**/
+void	draw_map(t_mlx	*gen);
+int		main_loop(t_mlx	*gen);
+
+/**	
+** print.c functions
 **/
 
 void	print_ptr_array(float	**arr, int h, int w);
@@ -122,9 +145,48 @@ void	print_3x3_array(float arr[3][3]);
 ** transform.c functions
 **/
 
+void	get_transposed(float rot[3][3]);
 void	get_rot_matrix(float rot[3][3], float *angles);
-void	rotate_cam(float ***v1, float ***v2, float *angles, int	*msize);
+void	rotate_cam(float ***v1, float ***v2, int *msize, float rot[3][3]);
 void	get_shifted(float ***v1, float *shift, int	*msize);
-void	move_cam(t_mlx	*gen, float *shift, float *angles, int *msize);
+void	move_cam(t_mlx	*gen, float *shift, int *msize, float rot[3][3]);
+
+/**	
+** interact.c functions
+**/
+
+int		mouse_hook(int x2, int y2, t_mlx *gen);
+int		key_press(int keycode, t_mlx *gen);
+int		key_release(int keycode, t_mlx *gen);
+int		exit_hook(void);
+void	limit_shift(t_mlx *gen);
+
+/**	
+** draw.c functions
+**/
+
+void	put_white_back(t_img *pic, void *mlx, int *wsize);
+void	get_isomet_projection(float ***v1, float foc, int *wsize, int *msize);
+void	get_persp_projection(float ***v1, float foc, int *wsize, int *msize);
+void	put_vertic_lines(t_img *pic, float ***v1, int *wsize, int *msize);
+void	put_horiz_lines(t_img *pic, float ***v1, int *wsize, int *msize);
+
+/**	
+** crop.c functions
+**/
+
+float	get_zmin(float **z, int *msize);
+int		crop_line(float xx_yy[4], int *wsize);
+void	crop_y(float xx_yy[4], float k, int fl, int *wsize);
+float	crop_x(float xx_yy[4], int *wsize);
+
+/**	
+** putpix.c functions
+**/
+
+void	my_mlx_pixel_put(t_img *pic, int x, int y, unsigned int color);
+void	put_pixels_wu(t_img *pic, t_line ln);
+void	swap_pairs(float *a1, float *a2, float *b1, float *b2);
+void	put_line(t_img	*pic, float xx_yy[4]);
 
 #endif

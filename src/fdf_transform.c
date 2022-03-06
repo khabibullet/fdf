@@ -6,11 +6,26 @@
 /*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 18:49:19 by anemesis          #+#    #+#             */
-/*   Updated: 2022/02/25 18:52:55 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/03/06 20:41:21 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf_lib.h"
+
+void	get_transposed(float rot[3][3])
+{
+	float	buf;
+
+	buf = rot[0][2];
+	rot[0][2] = rot[2][0];
+	rot[2][0] = buf;
+	buf = rot[0][1];
+	rot[0][1] = rot[1][0];
+	rot[1][0] = buf;
+	buf = rot[1][2];
+	rot[1][2] = rot[2][1];
+	rot[2][1] = buf;
+}
 
 void	get_rot_matrix(float rot[3][3], float *angles)
 {
@@ -30,13 +45,11 @@ void	get_rot_matrix(float rot[3][3], float *angles)
 	rot[2][1] = -rot[1][2] * rot[0][0];
 }
 
-void	rotate_cam(float ***v1, float ***v2, float *angles, int	*msize)
+void	rotate_cam(float ***v1, float ***v2, int *msize, float rot[3][3])
 {
 	int		h;
 	int		w;
-	float	rot[3][3];
 
-	get_rot_matrix(rot, angles);
 	h = 0;
 	while (h < msize[0])
 	{
@@ -80,12 +93,9 @@ void	get_shifted(float ***v1, float *shift, int	*msize)
 	** v2 = rot * v1, rot = rot(fi, teta)
 */
 
-void	move_cam(t_mlx	*gen, float *shift, float *angles, int *msize)
+void	move_cam(t_mlx	*gen, float *shift, int *msize, float rot[3][3])
 {
-	float	angs[2];
-
-	angs[0] = -angles[0];
-	angs[1] = -angles[1];
+	get_transposed(rot);
 	get_shifted(gen->v1, shift, msize);
-	rotate_cam(gen->v1, gen->v2, angs, msize);
+	rotate_cam(gen->v1, gen->v2, msize, rot);
 }
