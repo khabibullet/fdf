@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   fdf_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 19:25:17 by anemesis          #+#    #+#             */
-/*   Updated: 2022/03/06 20:38:35 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/03/07 21:55:45 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,26 +106,22 @@ void	malloc_vectors(float ****v1p, float ****v2p, int h, int w)
 	}
 }
 
-void	get_parsed(float ****v1p, float ****v2p, int *msize, char *mapname)
+void	get_centered_inv(float **z, int *msize)
 {
-	char	*str;
-	char	**spl;
-	int		fd;
 	int		h;
+	int		w;
+	float	zmid;
 
-	get_map_size(msize, mapname);
-	malloc_vectors(v1p, v2p, msize[0], msize[1]);
-	fd = open(mapname, O_RDONLY);
-	if (fd < 0)
-		exit (EXIT_FAILURE);
+	zmid = (get_max(z, msize) + get_min(z, msize)) / 2;
 	h = 0;
 	while (h < msize[0])
 	{
-		str = get_next_line(fd);
-		spl = ft_split(str, ' ');
-		free(str);
-		str_to_int(spl, *v1p, h, msize);
+		w = 0;
+		while (w < msize[1])
+		{
+			z[h][w] = -z[h][w] + zmid;
+			w++;
+		}
 		h++;
 	}
-	close(fd);
 }

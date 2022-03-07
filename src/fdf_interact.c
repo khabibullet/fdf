@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   interact.c                                         :+:      :+:    :+:   */
+/*   fdf_interact.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 19:16:47 by anemesis          #+#    #+#             */
-/*   Updated: 2022/03/06 20:39:05 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/03/07 22:47:40 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,14 @@ int	key_press(int keycode, t_mlx *gen)
 		gen->shift[1] += gen->shift_sens;
 	else if (keycode == KEY_Q)
 		gen->shift[1] += -gen->shift_sens;
+	else if (keycode == KEY_PLUS)
+		gen->shift_sens *= 1.2;
+	else if (keycode == KEY_MINUS)
+		gen->shift_sens /= 1.2;
 	else if (keycode == KEY_P)
-	{
-		if (gen->proj_type == 1)
-			gen->proj_type = 0;
-		else if (gen->proj_type == 0)
-			gen->proj_type = 1;
-	}
+		change_proj(&gen->proj_type);
+	else if (keycode == KEY_O)
+		reset_cam_pos(gen);
 	else if (keycode == KEY_ESC)
 		exit(EXIT_SUCCESS);
 	limit_shift(gen);

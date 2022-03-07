@@ -6,7 +6,7 @@
 #    By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/11 21:25:23 by anemesis          #+#    #+#              #
-#    Updated: 2022/03/06 21:11:54 by anemesis         ###   ########.fr        #
+#    Updated: 2022/03/07 21:24:48 by anemesis         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SOURCE =	src/ft_putchar.c		src/ft_putstr.c			src/ft_putnbr.c\
 			src/get_next_line.c		src/get_next_line_utils.c\
 			src/fdf_parse.c			src/fdf_transform.c		src/fdf_interact.c\
 			src/fdf_draw.c			src/fdf_crop.c			src/fdf_main_funcs.c\
-			src/fdf_putpix.c\
+			src/fdf_putpix.c		src/fdf_cam.c\
 
 OBJECTS = $(patsubst %.c, %.o, $(SOURCE))
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw.c                                             :+:      :+:    :+:   */
+/*   fdf_draw.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 20:40:49 by anemesis          #+#    #+#             */
-/*   Updated: 2022/03/06 20:46:40 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/03/07 20:37:07 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	get_isomet_projection(float ***v1, float foc, int *wsize, int *msize)
 	int		w;
 	float	zmin;
 
-	zmin = get_zmin(v1[2], msize);
+	zmin = get_min(v1[2], msize);
 	h = 0;
 	while (h < msize[0])
 	{
@@ -50,7 +50,7 @@ void	get_isomet_projection(float ***v1, float foc, int *wsize, int *msize)
 		{
 			v1[0][h][w] = -(foc * v1[0][h][w] / zmin) + (float)wsize[1] / 2;
 			v1[1][h][w] = -(foc * v1[1][h][w] / zmin) + (float)wsize[0] / 2;
-			if (v1[2][h][w] < foc)
+			if (v1[2][h][w] < 0)
 				v1[2][h][w] = 0;
 			w++;
 		}
@@ -73,7 +73,7 @@ void	get_persp_projection(float ***v1, float foc, int *wsize, int *msize)
 			z = v1[2][h][w];
 			v1[0][h][w] = -(foc * v1[0][h][w] / z) + (float)wsize[1] / 2;
 			v1[1][h][w] = -(foc * v1[1][h][w] / z) + (float)wsize[0] / 2;
-			if (v1[2][h][w] <= 0)
+			if (v1[2][h][w] < 0)
 				v1[2][h][w] = 0;
 			w++;
 		}

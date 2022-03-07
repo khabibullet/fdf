@@ -6,7 +6,7 @@
 /*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 21:08:20 by anemesis          #+#    #+#             */
-/*   Updated: 2022/03/06 21:23:31 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/03/07 22:48:55 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,11 @@
 # define KEY_A		0
 # define KEY_S		1
 # define KEY_D		2
+# define KEY_O		31
 # define KEY_P		35
 # define KEY_ESC	53
+# define KEY_PLUS	24
+# define KEY_MINUS	27
 
 # define X_EVENT_KEY_PRESS		2
 # define X_EVENT_KEY_RELEASE	3
@@ -126,20 +129,16 @@ void	count_size(int fd, int	*msize);
 void	get_map_size(int	*msize, char	*mapname);
 void	str_to_int(char **spl, float ***v1, int h, int *msize);
 void	malloc_vectors(float ****v1p, float ****v2p, int h, int w);
-void	get_parsed(float ****v1p, float ****v2p, int *msize, char *mapname);
+void	get_centered_inv(float **x, int *msize);
 
 /**	
 ** main_funcs.c functions
 **/
 void	draw_map(t_mlx	*gen);
 int		main_loop(t_mlx	*gen);
-
-/**	
-** print.c functions
-**/
-
-void	print_ptr_array(float	**arr, int h, int w);
-void	print_3x3_array(float arr[3][3]);
+void	get_parsed(float ****v1p, float ****v2p, int *msize, char *mapname);
+void	print_grid(float **a, int *msize);
+void	set_defaults(t_mlx *gen);
 
 /**	
 ** transform.c functions
@@ -175,7 +174,8 @@ void	put_horiz_lines(t_img *pic, float ***v1, int *wsize, int *msize);
 ** crop.c functions
 **/
 
-float	get_zmin(float **z, int *msize);
+float	get_min(float **z, int *msize);
+float	get_max(float **z, int *msize);
 int		crop_line(float xx_yy[4], int *wsize);
 void	crop_y(float xx_yy[4], float k, int fl, int *wsize);
 float	crop_x(float xx_yy[4], int *wsize);
@@ -187,6 +187,15 @@ float	crop_x(float xx_yy[4], int *wsize);
 void	my_mlx_pixel_put(t_img *pic, int x, int y, unsigned int color);
 void	put_pixels_wu(t_img *pic, t_line ln);
 void	swap_pairs(float *a1, float *a2, float *b1, float *b2);
+void	swap_points(t_line	*ln, float xx_yy[4]);
 void	put_line(t_img	*pic, float xx_yy[4]);
+
+/**	
+** fdf_cam.c functions
+**/
+
+void	reset_cam_pos(t_mlx *gen);
+void	get_centered(float **z, int *msize);
+void	change_proj(int *proj_type);
 
 #endif

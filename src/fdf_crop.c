@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   crop.c                                             :+:      :+:    :+:   */
+/*   fdf_crop.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 20:43:51 by anemesis          #+#    #+#             */
-/*   Updated: 2022/03/06 20:58:10 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/03/07 19:10:38 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf_lib.h"
 
-float	get_zmin(float **z, int *msize)
+float	get_min(float **z, int *msize)
 {
 	int		h;
 	int		w;
@@ -32,6 +32,28 @@ float	get_zmin(float **z, int *msize)
 		h++;
 	}
 	return (min);
+}
+
+float	get_max(float **z, int *msize)
+{
+	int		h;
+	int		w;
+	float	max;
+
+	h = 0;
+	max = z[0][0];
+	while (h < msize[0])
+	{
+		w = 0;
+		while (w < msize[1])
+		{
+			if (z[h][w] > max)
+				max = z[h][w];
+			w++;
+		}
+		h++;
+	}
+	return (max);
 }
 
 int	crop_line(float xx_yy[4], int *wsize)
