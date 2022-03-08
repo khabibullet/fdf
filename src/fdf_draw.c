@@ -6,21 +6,18 @@
 /*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 20:40:49 by anemesis          #+#    #+#             */
-/*   Updated: 2022/03/07 20:37:07 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/03/08 19:43:35 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf_lib.h"
 
-void	put_white_back(t_img *pic, void *mlx, int *wsize)
+void	put_white_back(t_img *pic, int *wsize)
 {
 	int		x;
 	int		y;
 	char	*dst;
 
-	pic->img = mlx_new_image(mlx, wsize[1], wsize[0]);
-	pic->addr = mlx_get_data_addr(pic->img,
-			&pic->depth, &pic->len, &pic->end);
 	y = 0;
 	while (y < wsize[0])
 	{

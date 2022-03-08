@@ -6,7 +6,7 @@
 /*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 19:16:47 by anemesis          #+#    #+#             */
-/*   Updated: 2022/03/07 22:47:40 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/03/08 19:54:39 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	key_press(int keycode, t_mlx *gen)
 	else if (keycode == KEY_O)
 		reset_cam_pos(gen);
 	else if (keycode == KEY_ESC)
-		exit(EXIT_SUCCESS);
+		exit_fdf(gen);
 	limit_shift(gen);
 	return (0);
 }
@@ -98,8 +98,8 @@ int	key_release(int keycode, t_mlx *gen)
 	return (0);
 }
 
-int	exit_hook(void)
+int	exit_hook(t_mlx *gen)
 {
-	exit(EXIT_SUCCESS);
+	exit_fdf(gen);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 20:49:58 by anemesis          #+#    #+#             */
-/*   Updated: 2022/03/07 22:28:14 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/03/08 19:59:17 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	draw_map(t_mlx	*gen)
 {
-	put_white_back(&gen->pic, gen->mlx, gen->wsize);
+	put_white_back(&gen->pic, gen->wsize);
 	if (gen->proj_type == 0)
 		get_persp_projection(gen->v1, gen->foc, gen->wsize, gen->msize);
 	else
@@ -22,7 +22,10 @@ void	draw_map(t_mlx	*gen)
 	put_horiz_lines(&gen->pic, gen->v1, gen->wsize, gen->msize);
 	put_vertic_lines(&gen->pic, gen->v1, gen->wsize, gen->msize);
 	mlx_put_image_to_window(gen->mlx, gen->win, gen->pic.img, 0, 0);
-	mlx_destroy_image(gen->mlx, gen->pic.img);
+	mlx_string_put(gen->mlx, gen->win, 10, 0, 0x00990000, gen->txt.str1);
+	mlx_string_put(gen->mlx, gen->win, 10, 18, 0x00990000, gen->txt.str2);
+	mlx_string_put(gen->mlx, gen->win, 10, 36, 0x00990000, gen->txt.str3);
+	mlx_string_put(gen->mlx, gen->win, 10, 54, 0x00990000, gen->txt.str4);
 }
 
 int	main_loop(t_mlx	*gen)
@@ -79,13 +82,27 @@ void	print_grid(float **a, int *msize)
 	}
 }
 
-void	set_defaults(t_mlx *gen)
+void	exit_fdf(t_mlx *gen)
 {
-	gen->foc = gen->wsize[1] / tanf(60 * M_PI / 180 / 2) / 2;
-	gen->mouse_sens = 0.5;
-	gen->shift_sens = sqrt(powf(gen->msize[0], 2)
-			+ powf(gen->msize[1], 2)) / 100;
-	get_rot_matrix(gen->rot, (float [2]){0});
-	move_cam(gen, (float [2]){0}, gen->msize, gen->rot);
-	reset_cam_pos(gen);
+	int	d;
+	int	h;
+
+	d = 0;
+	while (d < 3)
+	{
+		h = 0;
+		while (h < gen->msize[0])
+		{
+			free(gen->v1[d][h]);
+			free(gen->v2[d][h]);
+			h++;
+		}
+		free(gen->v1[d]);
+		free(gen->v2[d]);
+		d++;
+	}
+	mlx_destroy_image(gen->mlx, gen->pic.img);
+	mlx_destroy_window(gen->mlx, gen->win);
+	free(gen->mlx);
+	exit (EXIT_SUCCESS);
 }

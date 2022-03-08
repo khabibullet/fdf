@@ -6,7 +6,7 @@
 /*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 21:24:15 by anemesis          #+#    #+#             */
-/*   Updated: 2022/03/07 22:48:58 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/03/08 19:43:22 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,24 @@ void	change_proj(int *proj_type)
 		*proj_type = 0;
 	else if (*proj_type == 0)
 		*proj_type = 1;
+}
+
+void	set_defaults(t_mlx *gen)
+{
+	gen->foc = gen->wsize[1] / tanf(60 * M_PI / 180 / 2) / 2;
+	gen->mouse_sens = 0.5;
+	gen->shift_sens = sqrt(powf(gen->msize[0], 2)
+			+ powf(gen->msize[1], 2)) / 100;
+	get_rot_matrix(gen->rot, (float [2]){0});
+	move_cam(gen, (float [2]){0}, gen->msize, gen->rot);
+	reset_cam_pos(gen);
+	gen->pic.img = mlx_new_image(gen->mlx, gen->wsize[1], gen->wsize[0]);
+	gen->pic.addr = mlx_get_data_addr(gen->pic.img,
+			&gen->pic.depth, &gen->pic.len, &gen->pic.end);
+	gen->txt.str1 = "press 'W/A/S/D/Q/E' keys and move \
+		mouse to shift and rotate camera\0";
+	gen->txt.str2 = "press 'P' key to change projection \
+		type (isometric <-> perspective)\0";
+	gen->txt.str3 = "press 'O' to reset camera view to default\0";
+	gen->txt.str4 = "press '-/-' and '=/+' keys to change shift sensitivity\0";
 }

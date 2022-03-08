@@ -6,7 +6,7 @@
 /*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 18:42:24 by anemesis          #+#    #+#             */
-/*   Updated: 2022/03/07 18:46:22 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/03/08 17:07:29 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 int	main(void)
 {
-	float	a;
+	char	*s;
 
-	a = 122.223;
-	ft_printf("%d.%d%d\n", (int)a, (int)(a * 100) % 10, (int)(a * 10) % 10);
+	s = "asdadada fsadaa afa a  ffssasaf\n"
+		"sasadasdsadasd";
+	ft_printf("%s\n", s);
 }

@@ -6,7 +6,7 @@
 /*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 21:08:20 by anemesis          #+#    #+#             */
-/*   Updated: 2022/03/07 22:48:55 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/03/08 19:56:33 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,14 @@ typedef struct t_img
 	char	*addr;
 }	t_img;
 
+typedef struct t_text
+{
+	char	*str1;
+	char	*str2;
+	char	*str3;
+	char	*str4;
+}	t_text;
+
 typedef struct t_line
 {
 	float	x1;
@@ -88,6 +96,7 @@ typedef struct t_mlx
 	float			mouse_sens;
 	float			shift_sens;
 	int				proj_type;
+	struct t_text	txt;
 	struct t_img	pic;
 	struct t_line	ln;
 }	t_mlx;
@@ -125,6 +134,7 @@ int		ft_putuint(unsigned int n);
 /**	
 ** parse.c functions
 **/
+
 void	count_size(int fd, int	*msize);
 void	get_map_size(int	*msize, char	*mapname);
 void	str_to_int(char **spl, float ***v1, int h, int *msize);
@@ -134,11 +144,12 @@ void	get_centered_inv(float **x, int *msize);
 /**	
 ** main_funcs.c functions
 **/
+
 void	draw_map(t_mlx	*gen);
 int		main_loop(t_mlx	*gen);
 void	get_parsed(float ****v1p, float ****v2p, int *msize, char *mapname);
 void	print_grid(float **a, int *msize);
-void	set_defaults(t_mlx *gen);
+void	exit_fdf(t_mlx *gen);
 
 /**	
 ** transform.c functions
@@ -157,14 +168,14 @@ void	move_cam(t_mlx	*gen, float *shift, int *msize, float rot[3][3]);
 int		mouse_hook(int x2, int y2, t_mlx *gen);
 int		key_press(int keycode, t_mlx *gen);
 int		key_release(int keycode, t_mlx *gen);
-int		exit_hook(void);
+int		exit_hook(t_mlx *gen);
 void	limit_shift(t_mlx *gen);
 
 /**	
 ** draw.c functions
 **/
 
-void	put_white_back(t_img *pic, void *mlx, int *wsize);
+void	put_white_back(t_img *pic, int *wsize);
 void	get_isomet_projection(float ***v1, float foc, int *wsize, int *msize);
 void	get_persp_projection(float ***v1, float foc, int *wsize, int *msize);
 void	put_vertic_lines(t_img *pic, float ***v1, int *wsize, int *msize);
@@ -197,5 +208,6 @@ void	put_line(t_img	*pic, float xx_yy[4]);
 void	reset_cam_pos(t_mlx *gen);
 void	get_centered(float **z, int *msize);
 void	change_proj(int *proj_type);
+void	set_defaults(t_mlx *gen);
 
 #endif
