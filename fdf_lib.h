@@ -6,7 +6,7 @@
 /*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 21:08:20 by anemesis          #+#    #+#             */
-/*   Updated: 2022/03/09 19:15:20 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/03/09 19:42:35 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <stddef.h>
-# include <stdio.h>
 # include <errno.h>
 # include <math.h>
 # include <stdarg.h>
