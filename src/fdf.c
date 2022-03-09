@@ -6,11 +6,11 @@
 /*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:02:00 by anemesis          #+#    #+#             */
-/*   Updated: 2022/03/08 20:12:12 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/03/09 19:03:52 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf_lib.h"
+#include "../fdf_lib.h"
 
 int	main(int argc, char **argv)
 {
