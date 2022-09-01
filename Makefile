@@ -6,48 +6,60 @@
 #    By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/11 21:25:23 by anemesis          #+#    #+#              #
-#    Updated: 2022/03/09 19:19:11 by anemesis         ###   ########.fr        #
+#    Updated: 2022/09/01 19:57:48 by anemesis         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC = gcc
+NAME		=	fdf
 
-FLAGS = -Wall -Wextra -Werror
+HEADERS		=	headers/*
 
-NAME = fdf
+SRCDIR		=	sources
 
-HEADER = fdf_lib.h
+OBJDIR		=	objects
 
-SOURCE =	ft_putchar.c		ft_putstr.c			ft_putnbr.c\
-			ft_puthex.c			ft_putuint.c		ft_putptr.c\
-			ft_atoi.c			ft_isdigit.c		ft_split.c\
-			ft_printf.c			ft_strlcpy.c\
-			get_next_line.c		get_next_line_utils.c\
-			fdf_parse.c			fdf_transform.c		fdf_interact.c\
-			fdf_draw.c			fdf_crop.c			fdf_main_funcs.c\
-			fdf_putpix.c		fdf_cam.c			fdf.c\
+SRC			=	$(wildcard $(SRCDIR)/*.c) $(wildcard $(SRCDIR)/*/*.c)
 
-OBJECTS = $(patsubst %.c, obj/%.o, $(SOURCE))
+OBJ			=	$(SRC:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
-all: $(NAME)
+CC			=	cc
 
-$(NAME) : $(OBJECTS) $(HEADER)
-	$(CC) $(OBJECTS) -I $(HEADER) $(FLAGS) -lm -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+CFLAGS		=	-O1 -Wall -Wextra -Werror
 
-obj/%.o: src/%.c | obj
-	$(CC) -c $(FLAGS) $< -o $@
+LIBS		=	./libraries/libft/libft.a ./libraries/libmlx/libmlx.a
 
-obj:
-	mkdir -p obj
+INC			=	-I ./headers -I ./libraries/libft -I ./libraries/libmlx
 
-bonus: $(NAME)
-	
-clean:
-	rm -rf obj
+LIB_FT		=	-L ./libraries/libft/ -lft
 
-fclean: clean
+LIB_MLX		=	-L ./libraries/libmlx/ -lmlx -framework OpenGL -framework AppKit
+
+# **************************************************************************** #
+
+all : $(NAME)
+
+$(NAME) : $(OBJ)
+	$(CC) $(CFLAGS) $(INC) $(LIB_FT) $(LIB_MLX) $^ -o $@
+
+$(OBJDIR)/%.o : $(SRCDIR)/%.c $(LIBS) $(HEADERS)
+	@mkdir -p $(OBJDIR)
+	@mkdir -p $(@:/$(notdir $@)=)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(LIBS) :
+	make -C libraries/libft
+	make -C libraries/libmlx
+
+clean :
+	rm -rf $(OBJDIR)
+	make clean -C libraries/libft
+	make clean -C libraries/libmlx
+
+fclean : clean
 	rm -f $(NAME)
+	make fclean -C libraries/libft
+	make fclean -C libraries/libmlx
 
-re: fclean all
+re : fclean all
 
-.PHONY: all clean fclean re bonus obj
+.PHONY : all clean fclean re
