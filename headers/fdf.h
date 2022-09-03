@@ -13,6 +13,8 @@
 #ifndef FDF_LIB_H
 # define FDF_LIB_H
 # define BUFFER_SIZE 256
+# define HEIGHT 0
+# define WIDTH 1
 # include "../libraries/libmlx/headers/mlx.h"
 # include "../libraries/libft/libft.h"
 # include "utils.h"
@@ -52,14 +54,6 @@ typedef struct s_img
 	char	*addr;
 }	t_img;
 
-typedef struct s_text
-{
-	char	*str1;
-	char	*str2;
-	char	*str3;
-	char	*str4;
-}	t_text;
-
 typedef struct s_line
 {
 	float	x1;
@@ -91,8 +85,8 @@ typedef struct s_mlx
 	float			mouse_sens;
 	float			shift_sens;
 	int				proj_type;
-	struct s_text	txt;
 	struct s_img	pic;
+	struct s_img	hint;
 	struct s_line	ln;
 }	t_mlx;
 
@@ -105,7 +99,9 @@ void	get_map_size(int	*msize, char	*mapname);
 void	str_to_int(char **spl, float ***v1, int h, int *msize);
 void	malloc_vectors(float ****v1p, float ****v2p, int h, int w);
 void	get_centered_inv(float **x, int *msize);
-void	get_parsed(float ****v1p, float ****v2p, int *msize, char *mapname);
+void	get_parsed(int argc, t_mlx *gen, char *mapname);
+
+void	initialize_fdf(t_mlx *gen);
 
 /**	
 **		movement
@@ -119,7 +115,6 @@ void	move_cam(t_mlx	*gen, float *shift, int *msize, float rot[3][3]);
 void	reset_cam_pos(t_mlx *gen);
 void	get_centered(float **z, int *msize);
 void	change_proj(int *proj_type);
-void	set_defaults(t_mlx *gen);
 
 /**	
 **		handling

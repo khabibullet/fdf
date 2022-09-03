@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+         #
+#    By: anemesis <anemesis@student.21-school.ru    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/11 21:25:23 by anemesis          #+#    #+#              #
-#    Updated: 2022/09/01 19:57:48 by anemesis         ###   ########.fr        #
+#    Updated: 2022/09/03 23:21:56 by anemesis         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ LIB_MLX		=	-L ./libraries/libmlx/ -lmlx -framework OpenGL -framework AppKit
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	$(CC) $(CFLAGS) $(INC) $(LIB_FT) $(LIB_MLX) $^ -o $@
+	$(CC) $(CFLAGS) -lz $(INC) $(LIB_FT) $(LIB_MLX) $^ -o $@
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.c $(LIBS) $(HEADERS)
 	@mkdir -p $(OBJDIR)

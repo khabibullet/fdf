@@ -6,7 +6,7 @@
 /*   By: anemesis <anemesis@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 20:40:49 by anemesis          #+#    #+#             */
-/*   Updated: 2022/09/03 12:33:43 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/09/03 20:42:48 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,22 @@ void	put_white_back(t_img *pic, int *wsize)
 	int		x;
 	int		y;
 	char	*dst;
+	int		height;
+	int		width;
 
+	if (wsize[0] < 600)
+		height = 600;
+	else
+		height = wsize[0];
+	if (wsize[1] < 193)
+		width = 193;
+	else
+		width = wsize[1] + 193;
 	y = 0;
-	while (y < wsize[0])
+	while (y < height)
 	{
 		x = 0;
-		while (x < wsize[1])
+		while (x < width)
 		{
 			dst = pic->addr + (y * pic->len + x * (pic->depth / 8));
 			*(unsigned int *)dst = 0x00FFFFFF;

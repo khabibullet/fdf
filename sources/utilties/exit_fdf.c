@@ -6,7 +6,7 @@
 /*   By: anemesis <anemesis@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 18:27:01 by anemesis          #+#    #+#             */
-/*   Updated: 2022/09/03 12:33:43 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/09/04 00:26:19 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,5 @@ void	exit_fdf(t_mlx *gen)
 	mlx_destroy_image(gen->mlx, gen->pic.img);
 	mlx_destroy_window(gen->mlx, gen->win);
 	mlx_destroy_mlx(gen->mlx);
-	exit (EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 }

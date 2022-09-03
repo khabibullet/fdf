@@ -9,7 +9,7 @@
 #include <string.h>
 #include <arpa/inet.h>
 
-#include "zlib.h"
+#include <zlib.h>
 
 #include <OpenGL/gl3.h>
 #include	"../headers/mlx_int.h"

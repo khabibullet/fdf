@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+         #
+#    By: anemesis <anemesis@student.21-school.ru    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/20 11:52:34 by anemesis          #+#    #+#              #
-#    Updated: 2022/08/06 23:24:52 by anemesis         ###   ########.fr        #
+#    Updated: 2022/09/03 23:18:16 by anemesis         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ NAME	=	libmlx.a
 
 SRC		=	mlx_shaders.c		mlx_new_window.m	mlx_init_loop.m \
 			mlx_new_image.m		mlx_xpm.c			mlx_int_str_to_wordtab.c \
-			mlx_png.c			mlx_mouse.m
+			mlx_png.c			mlx_mouse.m	\
+			mlx_opengl.m		font.c \
 
 SRCDIR	=	sources
 
@@ -24,7 +25,7 @@ OBJ		=	$(addprefix $(OBJDIR)/,$(patsubst %.m,%.o,$(patsubst %.c,%.o,$(SRC))))
 
 CC		=	cc
 
-CFLAGS	=	-O2 -DSTRINGPUTX11 -w
+CFLAGS	=	-O2 -DSTRINGPUTX11 -w -lz
 
 all : $(NAME)
 

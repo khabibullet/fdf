@@ -6,7 +6,7 @@
 /*   By: anemesis <anemesis@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 18:32:12 by anemesis          #+#    #+#             */
-/*   Updated: 2022/09/03 12:33:43 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/09/04 00:19:28 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,5 @@ void	draw_map(t_mlx	*gen)
 	put_horiz_lines(&gen->pic, gen->v1, gen->wsize, gen->msize);
 	put_vertic_lines(&gen->pic, gen->v1, gen->wsize, gen->msize);
 	mlx_put_image_to_window(gen->mlx, gen->win, gen->pic.img, 0, 0);
-	mlx_string_put(gen->mlx, gen->win, 10, 18, 0x00990000, gen->txt.str1);
-	mlx_string_put(gen->mlx, gen->win, 10, 36, 0x00990000, gen->txt.str2);
-	mlx_string_put(gen->mlx, gen->win, 10, 54, 0x00990000, gen->txt.str3);
-	mlx_string_put(gen->mlx, gen->win, 10, 72, 0x00990000, gen->txt.str4);
+	mlx_put_image_to_window(gen->mlx, gen->win, gen->hint.img, gen->wsize[1], 0);
 }
