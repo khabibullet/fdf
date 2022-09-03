@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf_lib.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
+/*   By: anemesis <anemesis@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 21:08:20 by anemesis          #+#    #+#             */
-/*   Updated: 2022/09/01 20:28:22 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/09/03 12:24:47 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # define KEY_S		1
 # define KEY_D		2
 # define KEY_O		31
+# define KEY_R		15
 # define KEY_P		35
 # define KEY_ESC	53
 # define KEY_PLUS	24

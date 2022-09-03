@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf_interact.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
+/*   By: anemesis <anemesis@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 19:16:47 by anemesis          #+#    #+#             */
-/*   Updated: 2022/09/01 18:31:31 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/09/03 12:25:23 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	key_press(int keycode, t_mlx *gen)
 		gen->shift_sens /= 1.2;
 	else if (keycode == KEY_P)
 		change_proj(&gen->proj_type);
-	else if (keycode == KEY_O)
+	else if (keycode == KEY_R)
 		reset_cam_pos(gen);
 	else if (keycode == KEY_ESC)
 		exit_fdf(gen);
