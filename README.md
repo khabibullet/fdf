@@ -58,5 +58,5 @@ Keys sensitivity also can be adjusted.
 ## **Example**
 
 <br>
-<img border="2" src="readme/fps.gif" alt="drawing" width="600" style="border-radius:2%;border-color:#DADADA"/>
+<img border="2" src="readme/example_gif.gif" alt="drawing" width="600" style="border-radius:2%;border-color:#DADADA"/>
 <br>
