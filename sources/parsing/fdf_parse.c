@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   fdf_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
+/*   By: anemesis <anemesis@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 19:25:17 by anemesis          #+#    #+#             */
-/*   Updated: 2022/09/01 18:28:44 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/09/03 12:33:43 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/fdf_lib.h"
+#include "../../headers/fdf.h"
 
 void	count_size(int fd, int	*msize)
 {

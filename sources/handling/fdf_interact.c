@@ -6,11 +6,11 @@
 /*   By: anemesis <anemesis@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 19:16:47 by anemesis          #+#    #+#             */
-/*   Updated: 2022/09/03 12:25:23 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/09/03 12:33:43 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/fdf_lib.h"
+#include "../../headers/fdf.h"
 
 int	mouse_hook(int x2, int y2, t_mlx *gen)
 {

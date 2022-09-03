@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   fdf_draw.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
+/*   By: anemesis <anemesis@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 20:40:49 by anemesis          #+#    #+#             */
-/*   Updated: 2022/09/01 18:29:54 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/09/03 12:33:43 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/fdf_lib.h"
+#include "../../headers/fdf.h"
 
 void	put_white_back(t_img *pic, int *wsize)
 {

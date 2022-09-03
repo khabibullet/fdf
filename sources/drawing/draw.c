@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
+/*   By: anemesis <anemesis@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 18:32:12 by anemesis          #+#    #+#             */
-/*   Updated: 2022/09/01 20:54:58 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/09/03 12:33:43 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/fdf_lib.h"
+#include "../../headers/fdf.h"
 
 void	draw_map(t_mlx	*gen)
 {

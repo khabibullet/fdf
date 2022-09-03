@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   fdf_putpix.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anemesis <anemesis@student.21-school.ru>   +#+  +:+       +#+        */
+/*   By: anemesis <anemesis@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 20:59:38 by anemesis          #+#    #+#             */
-/*   Updated: 2022/09/01 19:57:50 by anemesis         ###   ########.fr       */
+/*   Updated: 2022/09/03 12:33:43 by anemesis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/fdf_lib.h"
+#include "../../headers/fdf.h"
 
 void	my_mlx_pixel_put(t_img *pic, int x, int y, unsigned int color)
 {
